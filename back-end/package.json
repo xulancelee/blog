@@ -2,9 +2,11 @@
   "name": "xulance-blog-back-end",
   "version": "1.0.0",
   "description": "Site xulance.com back end",
-  "main": "index.js",
+  "main": "run.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "./node_modules/.bin/nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +23,17 @@
   "bugs": {
     "url": "https://github.com/xulancelee/blog/issues"
   },
-  "homepage": "https://github.com/xulancelee/blog#readme"
+  "homepage": "https://github.com/xulancelee/blog#readme",
+  "dependencies": {
+    "koa": "^2.12.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-json": "^2.0.2",
+    "koa-router": "^8.0.8",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.2.3",
+    "runkoa": "^1.5.9"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
 }
