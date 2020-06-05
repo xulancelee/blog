@@ -8,3 +8,9 @@ xulance personal web blog site.
 ##### Front End
 -- package.json
 
+```js
+function a() {
+    console.log(111);
+    
+}
+```

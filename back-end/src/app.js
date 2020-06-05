@@ -9,7 +9,7 @@ import home from './router/home.js';
 
 const app = new Koa();
 
-console.log(path.resolve('./src/view'));
+console.log(path.resolve('./'));
 
 app.use(koa_json());
 app.use(koa_views(path.resolve('./src/view')));
@@ -21,6 +21,7 @@ app.use(async (ctx, next) => {
     await next();
     let data = ctx.body;
     let code = ctx.status;
+    let type = ctx.type;
     switch (code) {
         case 301:
         case 302:
@@ -31,10 +32,10 @@ app.use(async (ctx, next) => {
             break;
         case 200:
         default:
-            if (typeof data === 'string')
+            if (typeof data === 'string') {
+                if (type && type.indexOf('text') >= 0) break;
                 ctx.body = {data: null, result: false, message: data, code: 200};
-            else ctx.body = {data: data, result: true, message: 'ok', code: 200};
-
+            } else ctx.body = {data: data, result: true, message: 'ok', code: 200};
     }
 });
 app.on('error', async (err, ctx) => {

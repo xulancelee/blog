@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Q & A</title>
+</head>
+<body>
+<div>
+    <h1>一面</h1>
+    <p>一面，以考察基础为主，同时也会有笔试题的考察。面试官，一般都比较好沟通，对于基础问题都会有所探讨。因为这一面的面试官，大概率是自己以后的师兄/师姐。主要会从以下几个维度考察：</p>
+    <p>JS基础</p>
+    <p>CSS基础</p>
+    <p>网络层</p>
+    <p>常用技术栈</p>
+    <br/>
+</div>
+<div>
+    <h3>JS基础</h3>
+    <div>
+        <p>for循环和forEach循环，哪种性能会好一些</p>
+        <script>
+            /**
+             * for循环适合用在已知长度的的Array的循环中，速度比forEach快
+             * for in适合用在对象key的遍历
+             * for of是ES6对Map Set Array等拥有enumerable属性的对象的遍历枚举
+             * 速度 for < for of < forEach < for in
+             * */
+            // (function () {
+            //     let arr = [];
+            //
+            //     for (let i = 0; i < 10000000; i++) {
+            //         arr.push(Math.random());
+            //     }
+            //
+            //     let time1 = new Date().getTime();
+            //     console.log(time1);
+            //     arr.forEach(((value, index, array) => {
+            //
+            //     }));
+            //     let time2 = new Date().getTime();
+            //     console.log(time2);
+            //     console.log('forEach执行耗时' + (time2 - time1));
+            //
+            //
+            //     let time3 = new Date().getTime();
+            //     console.log(time3);
+            //     for (let i of arr) {
+            //
+            //     }
+            //     let time4 = new Date().getTime();
+            //     console.log(time4);
+            //     console.log('for执行耗时' + (time4 - time3));
+            //
+            //     let time5 = new Date().getTime();
+            //     console.log(time5);
+            //     for (let i = 0; i < arr.length; i++) {
+            //
+            //     }
+            //     let time6 = new Date().getTime();
+            //     console.log(time6);
+            //     console.log('for 2执行耗时' + (time6 - time5));
+            //
+            // }());
+        </script>
+    </div>
+    <div>
+        <p>let，const和var的区别【给一道题，分析报出什么错误】</p>
+        <script>
+            /**
+             * 从 变量提升 暂时性死区 重复声明 初始值 作用域 来回答
+             * var
+             * let
+             * const
+             * */
+        </script>
+    </div>
+    <div>
+        <p>JS的基础数据类型有哪些</p>
+        <script>
+            /**
+             * undefined string number function object(null,Array,Date,Regex) boolean symbol
+             *
+             * */
+        </script>
+    </div>
+    <div>
+        <p>什么是Symbol，它的使用场景是什么</p>
+        <script>
+            /**
+             * Symbol就如它的名字一样，就是一种符号，是一种唯一的标识符
+             * 一般用在需要使用唯一标识符的地方，可以用于消除魔术字符串，对程序进行解耦等
+             * */
+        </script>
+    </div>
+    <div>
+        <p>数组原型上面的方法有哪些，哪些是可以改变数组的，哪些是不可以的</p>
+        <script>
+            /**
+             * 可
+             * push pop shift unshift reverse splice sort
+             * 不可
+             * forEach fill every indexOf filter concat join slice toString
+             * 属性
+             * length
+             * */
+        </script>
+    </div>
+    <div>
+        <p>如何转换一个类数组对象，大致原理是怎么样的</p>
+        <script>
+            /**
+             * [].slice.call(ArrayLike);
+             * Array.form(ArrayLike);
+             * [...ArrayLike]
+             * 兼容方法 手动push
+             * */
+        </script>
+    </div>
+    <div>
+        <p>Map 和 WeakMap的区别</p>
+        <script>
+            /**
+             * Map的Key可以是任意值，WeakMap的键只能是对象
+             * WeakMap是Map的弱引用版本，如果键被回收处理了，WeakMap也会删除对应的键值对
+             * WeakMap不可枚举，无法获取大小
+             * */
+
+        </script>
+    </div>
+    <div>
+        <p>了解JS的作用域么，函数作用域是在什么时候形成的</p>
+        <script>
+            /**
+             *
+             * */
+        </script>
+    </div>
+    <div>
+        <p>什么是闭包，它有什么作用，它的原理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>通过例子的形式，说一下JS的原型链</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何实现一个new</p>
+        <script></script>
+    </div>
+    <div>
+        <p>说一下JS的继承方式</p>
+        <script></script>
+    </div>
+    <div>
+        <p>什么是箭头函数，它和普通函数的区别</p>
+        <script></script>
+    </div>
+    <div>
+        <p>this的指向【通过题目考察，表述结果，解释理由】</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何迭代一个对象，for..in这种方式，如何取出对象自己的属性</p>
+        <script></script>
+    </div>
+    <div>
+        <p>Object.assign它是一个浅拷贝还是深拷贝</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何实现一个深拷贝</p>
+        <script></script>
+    </div>
+    <div>
+        <p>什么是Promise，如何实现它，Promise.then，Promise.race如何实现</p>
+        <script></script>
+    </div>
+    <div>
+        <p>什么是防抖，什么是节流，如何实现防抖</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下Event Loop，这个循环会一直下去么，宏任务和微任务的区别【通过笔试题的方式，表述结果，解释理由】</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如果在Event Loop中，不断push微任务是否一直会执行</p>
+        <script></script>
+    </div>
+    <div>
+        <p>浏览器的事件机制有哪几个阶段？addEventListener的第三个参数起到什么作用</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何实现一个请求超时</p>
+        <script></script>
+    </div>
+    <br/>
+</div>
+<div>
+    <h3>CSS基础</h3>
+    <div>
+        <p>什么是盒模型，如何进行不同盒模型的切换</p>
+        <script></script>
+    </div>
+    <div>
+        <p>样式的优先级排序，如何去获取一个样式的相邻元素</p>
+        <script></script>
+    </div>
+    <div>
+        <p>position的属性值有哪些，它们的区别是什么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>列举一下移动端适配方案</p>
+        <script></script>
+    </div>
+    <div>
+        <p>flex的布局了解么，什么是主轴，如何控制主轴和副轴</p>
+        <script></script>
+    </div>
+    <div>
+        <p>Flex的优点和缺点，如何用flex布局两边固定，中间自适应；同时其他方式能实现么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何实现水平垂直居中</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何清除浮动，清除浮动的原理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>什么是BFC，它的作用是什么，什么行为会产生BFC</p>
+        <script></script>
+    </div>
+    <div>
+        <p>父元素浮动了，子元素形成BFC能清除浮动么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>css的动画如何实现</p>
+        <script></script>
+    </div>
+    <div>
+        <p>为什么使用transform写动画，不用left写动画</p>
+        <script></script>
+    </div>
+    <div>
+        <p>回流和重绘的区别，什么行为会导致回流，什么行为会导致重绘</p>
+        <script></script>
+    </div>
+    <div>
+        <p>了解CSS3么，CSS3里面新增了哪些属性</p>
+        <script></script>
+    </div>
+    <div>
+        <p>1px的问题可以如何去解决【尽可能地多说】</p>
+        <script></script>
+    </div>
+    <div>
+        <p>less和css的区别，less的函数有了解过么</p>
+        <script></script>
+    </div>
+    <br/>
+</div>
+<div>
+    <h3>网络层</h3>
+    <div>
+        <p>在浏览器输入一个URL的整体过程是怎么样的</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下浏览器页面渲染的过程</p>
+        <script></script>
+    </div>
+    <div>
+        <p>浏览器白屏是什么导致的</p>
+        <script></script>
+    </div>
+
+    <div>
+        <p>浏览器存储Cookie、localstorage、sessionStorage的区别</p>
+        <script></script>
+    </div>
+    <div>
+        <p>cookie如何进行设置的，JS能改变哪些值</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下浏览器缓存</p>
+        <script></script>
+    </div>
+    <div>
+        <p>HTTP的状态码有哪些</p>
+        <script></script>
+    </div>
+    <div>
+        <p>HTTP的请求头包含什么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>解决跨域的方法有哪几种</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下JSONP的原理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下CORS的过程</p>
+        <script></script>
+    </div>
+    <br/>
+</div>
+<div>
+    <h3>常用技术栈</h3>
+    <div>
+        <p>vue 和 react的一些区别</p>
+        <script></script>
+    </div>
+    <div>
+        <p>vue的生命周期有哪些</p>
+        <script></script>
+    </div>
+    <div>
+        <p>vue的异步组件了解过么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>vue的双向数据绑定如何实现的，数组的响应式如何做到的，proxy的好处</p>
+        <script></script>
+    </div>
+    <div>
+        <p>vue的指令有哪些，v-if和v-show的区别是什么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>计算属性和侦听属性的区别</p>
+        <script></script>
+    </div>
+    <div>
+        <p>vue的虚拟DOM和react的有什么不一样</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下vue的diff算法</p>
+        <script></script>
+    </div>
+    <div>
+        <p>v-for之后的key的作用是什么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>Vue的组件通信有哪些</p>
+        <script></script>
+    </div>
+    <div>
+        <p>keep-alive如何实现</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何实现一个hash路由</p>
+        <script></script>
+    </div>
+    <div>
+        <p>vueRouter的方式有哪两种，区别是什么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>vueRouter的路由守卫了解么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>vue3.0的新特性了解么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>React的setState的机制是什么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下React生命周期</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下redux的中间件原理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>redux如何进行异步处理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>redux和dva的区别</p>
+        <script></script>
+    </div>
+    <div>
+        <p>webpack的loader和Plugins有什么区别，webpack是如何去使用Plugins的</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下小程序的同层渲染原理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>小程序的bindtap和catchtap的区别</p>
+        <script></script>
+    </div>
+    <div>
+        <p>小程序的通信是怎么样的</p>
+        <script></script>
+    </div>
+    <div>
+        <p>小程序的setData的数据如果很大，如何解决</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何实现数据打点和用户行为监控</p>
+        <script></script>
+    </div>
+    <br/>
+</div>
+<div>
+    <h3>编程题</h3>
+    <div>
+        <p>实现一个sum方法【sum(1, 2, 3)(4)，sum(1, 2)(3, 4)类似的调用】，同时console.log(sum(1, 2, 3)(4) => //输出10</p>
+        <script></script>
+    </div>
+    <div>
+        <p>给定一个先增后降的数组，找出其中的最大值</p>
+        <script></script>
+    </div>
+    <div>
+        <p>实现数组去重的方法【尽量多写】</p>
+        <script></script>
+    </div>
+    <div>
+        <p>实现一个正则表达式（匹配url链接）</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何通过CSS实现一个梯形，然后实现一个可以点击的圆形</p>
+        <script></script>
+    </div>
+    <div>
+        <p>一个人总共吹了253根蜡烛，它几岁了【一岁吹一根，两岁吹两根，依次类推】</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何实现两个有序数组的合并，要求时间复杂度是O(n)</p>
+        <script></script>
+    </div>
+</div>
+
+<div>
+    <h1>二面</h1>
+    <p>二面，一般都会考察一些项目问题，性能优化，也会对基础的原理部分进行综合考察。二面面试官，往往是以后自己的leader，或者其他部门更加资深的技术。考察的维度比较多变，需要多对项目这个部分进行准备。</p>
+</div>
+<div>
+    <h3>基础部分</h3>
+    <div>
+        <p>Http状态码有哪些</p>
+        <script></script>
+    </div>
+    <div>
+        <p>HTTP1.1/HTTP2.0的区别</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下浏览器缓存</p>
+        <script></script>
+    </div>
+    <div>
+        <p>cookie和Session的区别</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下xss和csrf，如何防范</p>
+        <script></script>
+    </div>
+    <div>
+        <p>请求超时timeout的原理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下进程和线程</p>
+        <script></script>
+    </div>
+    <div>
+        <p>node内存泄漏的原因</p>
+        <script></script>
+    </div>
+    <div>
+        <p>了解过vue迁移到小程序的原理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>虚拟列表的实现原理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>骨架图的实现方案</p>
+        <script></script>
+    </div>
+    <div>
+        <p>React hooks的优点</p>
+        <script></script>
+    </div>
+    <div>
+        <p>Dva的同步状态管理，异步状态管理，是如何实现的</p>
+        <script></script>
+    </div>
+    <div>
+        <p>描述一下vue的nextTick的原理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>webpack常用插件，以及dev和product有啥差别</p>
+        <script></script>
+    </div>
+    <div>
+        <p>webpack打包原理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>小程序页面之间的通信怎么处理</p>
+        <script></script>
+    </div>
+    <div>
+        <p>webview组件和原生组件的区别</p>
+        <script></script>
+    </div>
+</div>
+<div>
+    <h3>性能优化</h3>
+    <div>
+        <p>移动端的性能优化【从自己做过的角度出发】</p>
+        <script></script>
+    </div>
+    <div>
+        <p>webpack的性能优化如何做</p>
+        <script></script>
+    </div>
+    <div>
+        <p>如何进行首屏加载优化</p>
+        <script></script>
+    </div>
+    <div>
+        <p>平时如何做小程序部分的性能优化的</p>
+        <script></script>
+    </div>
+</div>
+<div>
+    <h3>编程题</h3>
+    <div>
+        <p>写出3种水平垂直居中方案</p>
+        <script></script>
+    </div>
+    <div>
+        <p>手写实现bind方法</p>
+        <script></script>
+    </div>
+    <div>
+        <p>手写promise的sleep函数实现</p>
+        <script></script>
+    </div>
+    <div>
+        <p>手写Promise.all的实现</p>
+        <script></script>
+    </div>
+    <div>
+        <p>算法题 - 寻找最长不重复子串</p>
+        <script></script>
+    </div>
+    <div>
+        <p>算法题 - 计算年龄 【输入一个字符串：yyyy-mm-dd，根据当前时间计算它的年龄】</p>
+        <script></script>
+    </div>
+    <p>二面面试过程中，会涉及到项目的问题，我这里不进行列举。因为每个人的项目不太一样，参考意义不大。可以多对项目中的难点和亮点进行展开叙述</p>
+</div>
+
+
+<div>
+    <h1>三面</h1>
+    <p>三面，一般会考察项目，个人规划，提供技术方案的能力。三面的考察，开放程度更大，每个人根据自己的情况，酌情回答。同时，也会有笔试题的考察</p>
+</div>
+<div>
+    <div>
+        <p>聊项目，项目中遇到的问题，如何解决的</p>
+        <script></script>
+    </div>
+    <div>
+        <p>回头看，项目中还有什么需要改进的地方</p>
+        <script></script>
+    </div>
+    <div>
+        <p>平时如何去做性能优化的</p>
+        <script></script>
+    </div>
+    <div>
+        <p>在公司有啥技术贡献</p>
+        <script></script>
+    </div>
+    <div>
+        <p>在原公司，自己最大的成长是什么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>自己觉得在原公司的开发流程上，还有哪些可以改进的</p>
+        <script></script>
+    </div>
+    <div>
+        <p>代码的注释，数组的解构，整体的思路，如何进行函数的封装，如何使用设计模式，如何你进行代码调试</p>
+        <script></script>
+    </div>
+    <div>
+        <p>希望公司能够提供你什么</p>
+        <script></script>
+    </div>
+    <div>
+        <p>自己未来的职业规划是怎样的</p>
+        <script></script>
+    </div>
+    <div>
+        <p>平时如何进行学习的</p>
+        <script></script>
+    </div>
+    <div>
+        <p>目前在学习什么【慎重回答，这是面试的扩展点】</p>
+        <script></script>
+    </div>
+    <div>
+        <p>离职的原因是什么</p>
+        <script></script>
+    </div>
+</div>
+<div>
+    <h3>编程题</h3>
+    <div>
+        <p>算法题 - 实现一个二分查找</p>
+        <script></script>
+    </div>
+    <div>
+        <p>实现一个异步缓存请求【考察并发】</p>
+        <script></script>
+    </div>
+    <div>
+        <p>算法题 - {} [] ()三个判断是否闭合</p>
+        <script></script>
+    </div>
+</div>
+<div>
+    <h1>hr面</h1>
+    <p>hr面，一般比较轻松。主要围绕着你的基本信息、薪资情况、个人发展、性格、和他人相处、团队协作等方面展开。题目本身开放性程度比较大，每个人的答案也不相同。按照个人情况作答即可。</p>
+</div>
+<div>
+    <div>
+        <p>你为什么离职，对上一家公司的印象如何</p>
+        <script></script>
+    </div>
+    <div>
+        <p>你的优点是什么，缺点是什么【一般会让你通过具体案例去说明】</p>
+        <script></script>
+    </div>
+    <div>
+        <p>你在别人眼里是怎么样的一个人</p>
+        <script></script>
+    </div>
+    <div>
+        <p>你对未来的规划是怎样子的</p>
+        <script></script>
+    </div>
+    <div>
+        <p>你的期望薪资是多少</p>
+        <script></script>
+    </div>
+</div>
+
+
+<div>
+    <p></p>
+    <script></script>
+</div>
+<div>
+    <p></p>
+    <script></script>
+</div>
+<div>
+    <p></p>
+    <script></script>
+</div>
+<div>
+    <p></p>
+    <script></script>
+</div>
+<div>
+    <p></p>
+    <script></script>
+</div>
+<div>
+    <p></p>
+    <script></script>
+</div>
+
+
+<script>
+
+    (function () {
+
+        function _arrayBufferToBase64( buffer ) {
+            var binary = '';
+            var bytes = new Uint8Array( buffer );
+            var len = bytes.byteLength;
+            for (var i = 0; i < len; i++) {
+                binary += String.fromCharCode( bytes[ i ] );
+            }
+            return window.btoa( binary );
+        }
+
+
+        function uint8ArrayToBase64(bytes) {
+            var binary = '';
+            var len = bytes.byteLength;
+            for (var i = 0; i < len; i++) {
+                binary += String.fromCharCode( bytes[ i ] );
+            }
+
+            return window.btoa( binary );
+        }
+
+        function base64ToUint8Array(baseStr) {
+            var binary = atob(baseStr);
+            var bytes = new Uint16Array(binary.length);
+            var len = bytes.length;
+            for (var i = 0; i < len; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            return bytes;
+        }
+
+        function arrayBufferToBase64(buffer) {
+            var binary = '';
+            var bytes = new Uint8Array( buffer );
+            var len = bytes.byteLength;
+            for (var i = 0; i < len; i++) {
+                binary += String.fromCharCode( bytes[ i ] );
+            }
+            return window.btoa( binary );
+        }
+
+        function base64ToArrayBuffer(base64Str) {
+            var binary = atob(base64Str);
+            var buffer = new ArrayBuffer(binary.length);
+            var bytes = new Uint8Array(buffer);
+            var len = bytes.length;
+            for (var i = 0; i < len; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            return buffer;
+        }
+
+        var buffer = new ArrayBuffer(1440);
+        var uint16Array = new Uint16Array(buffer);
+        var len = uint16Array.byteLength;
+        for (var i = 0; i < len; i++) {
+            uint16Array[i] = i;
+        }
+
+        var base64Str = arrayBufferToBase64(buffer);
+
+        console.log(base64Str);
+
+        var buffer1 = base64ToArrayBuffer(base64Str);
+
+        console.log(buffer1);
+
+        var xhr = new XMLHttpRequest;
+        xhr.open("POST", '/test1', false);
+        xhr.send(buffer1);
+
+        var xhr2 = new XMLHttpRequest;
+        xhr2.open("POST", '/test2', false);
+        xhr2.send(base64Str);
+    }());
+
+
+    (function () {
+        function utf8ArrToStr (aBytes) {
+
+            var sView = "";
+
+            for (var nPart, nLen = aBytes.length, nIdx = 0; nIdx < nLen; nIdx++) {
+                nPart = aBytes[nIdx];
+                sView += String.fromCharCode(
+                    nPart > 251 && nPart < 254 && nIdx + 5 < nLen ? /* six bytes */
+                        /* (nPart - 252 << 30) may be not so safe in ECMAScript! So...: */
+                        (nPart - 252) * 1073741824 + (aBytes[++nIdx] - 128 << 24) + (aBytes[++nIdx] - 128 << 18) + (aBytes[++nIdx] - 128 << 12) + (aBytes[++nIdx] - 128 << 6) + aBytes[++nIdx] - 128
+                        : nPart > 247 && nPart < 252 && nIdx + 4 < nLen ? /* five bytes */
+                        (nPart - 248 << 24) + (aBytes[++nIdx] - 128 << 18) + (aBytes[++nIdx] - 128 << 12) + (aBytes[++nIdx] - 128 << 6) + aBytes[++nIdx] - 128
+                        : nPart > 239 && nPart < 248 && nIdx + 3 < nLen ? /* four bytes */
+                            (nPart - 240 << 18) + (aBytes[++nIdx] - 128 << 12) + (aBytes[++nIdx] - 128 << 6) + aBytes[++nIdx] - 128
+                            : nPart > 223 && nPart < 240 && nIdx + 2 < nLen ? /* three bytes */
+                                (nPart - 224 << 12) + (aBytes[++nIdx] - 128 << 6) + aBytes[++nIdx] - 128
+                                : nPart > 191 && nPart < 224 && nIdx + 1 < nLen ? /* two bytes */
+                                    (nPart - 192 << 6) + aBytes[++nIdx] - 128
+                                    : /* nPart < 127 ? */ /* one byte */
+                                    nPart
+                );
+            }
+
+            return sView;
+
+        }
+
+        function strToUTF8Arr (sDOMStr) {
+
+            var aBytes, nChr, nStrLen = sDOMStr.length, nArrLen = 0;
+
+            /* mapping... */
+
+            for (var nMapIdx = 0; nMapIdx < nStrLen; nMapIdx++) {
+                nChr = sDOMStr.charCodeAt(nMapIdx);
+                nArrLen += nChr < 0x80 ? 1 : nChr < 0x800 ? 2 : nChr < 0x10000 ? 3 : nChr < 0x200000 ? 4 : nChr < 0x4000000 ? 5 : 6;
+            }
+
+            aBytes = new Uint8Array(nArrLen);
+
+            /* transcription... */
+
+            for (var nIdx = 0, nChrIdx = 0; nIdx < nArrLen; nChrIdx++) {
+                nChr = sDOMStr.charCodeAt(nChrIdx);
+                if (nChr < 128) {
+                    /* one byte */
+                    aBytes[nIdx++] = nChr;
+                } else if (nChr < 0x800) {
+                    /* two bytes */
+                    aBytes[nIdx++] = 192 + (nChr >>> 6);
+                    aBytes[nIdx++] = 128 + (nChr & 63);
+                } else if (nChr < 0x10000) {
+                    /* three bytes */
+                    aBytes[nIdx++] = 224 + (nChr >>> 12);
+                    aBytes[nIdx++] = 128 + (nChr >>> 6 & 63);
+                    aBytes[nIdx++] = 128 + (nChr & 63);
+                } else if (nChr < 0x200000) {
+                    /* four bytes */
+                    aBytes[nIdx++] = 240 + (nChr >>> 18);
+                    aBytes[nIdx++] = 128 + (nChr >>> 12 & 63);
+                    aBytes[nIdx++] = 128 + (nChr >>> 6 & 63);
+                    aBytes[nIdx++] = 128 + (nChr & 63);
+                } else if (nChr < 0x4000000) {
+                    /* five bytes */
+                    aBytes[nIdx++] = 248 + (nChr >>> 24);
+                    aBytes[nIdx++] = 128 + (nChr >>> 18 & 63);
+                    aBytes[nIdx++] = 128 + (nChr >>> 12 & 63);
+                    aBytes[nIdx++] = 128 + (nChr >>> 6 & 63);
+                    aBytes[nIdx++] = 128 + (nChr & 63);
+                } else /* if (nChr <= 0x7fffffff) */ {
+                    /* six bytes */
+                    aBytes[nIdx++] = 252 + (nChr >>> 30);
+                    aBytes[nIdx++] = 128 + (nChr >>> 24 & 63);
+                    aBytes[nIdx++] = 128 + (nChr >>> 18 & 63);
+                    aBytes[nIdx++] = 128 + (nChr >>> 12 & 63);
+                    aBytes[nIdx++] = 128 + (nChr >>> 6 & 63);
+                    aBytes[nIdx++] = 128 + (nChr & 63);
+                }
+            }
+
+            return aBytes;
+
+        }
+
+
+    }())
+</script>
+
+</body>
+</html>
