@@ -19,7 +19,103 @@
     </div>
 </div>
 <div class="theme-list"></div>
+
+
+
 <script src="https://note.youdao.com/md/vendor-c7413287a3.js"></script>
 <script src="https://note.youdao.com/md/index-3abeeca70a.js"></script>
+<script>
+    var a = {
+        module: {
+            //加载器配置
+            rules: [
+                {
+                    test: /\.css$/,
+                    use: [
+                        {
+                            loader: "style-loader"
+                        },
+                        {
+                            loader: "css-loader",
+                            options: {
+                                modules: true,
+                                camelCase: true,
+                                localIdentName: "[name]_[local]_[hash:base64:3]",
+                                importLoaders: 1,
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            loader: "postcss-loader",
+                            options: {
+                                sourceMap: true,
+                                plugins: () => [
+                                    precss(),
+                                    autoprefixer({
+                                        browsers: ['last 3 version', 'ie >= 10']
+                                    }),
+                                    postcsseasysprites({imagePath: '../img', spritePath: './assets/dist/img'})
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    test: /\.css$/,
+                    exclude: [path.resolve(srcDir, cssDir)],
+                    use: [
+                        {
+                            loader: "style-loader"
+                        },
+                        {
+                            loader: "css-loader",
+                            options: {
+                                importLoaders: 1,
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            loader: "postcss-loader",
+                            options: {
+                                sourceMap: true,
+                                plugins: () => [
+                                    precss(),
+                                    autoprefixer({
+                                        browsers: ['last 3 version', 'ie >= 10']
+                                    }),
+                                    postcsseasysprites({imagePath: '../img', spritePath: './assets/dist/img'})
+                                ]
+                            }
+                        }
+                    ]
+
+                },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {
+                            loader: "babel-loader",
+                            options: {
+                                presets: ['react-hmre']
+                            }
+                        }
+                    ]
+                },
+                {
+                    test: /\.(png|jpeg|jpg|gif|svg)$/,
+                    use: [
+                        {
+                            loader: "file-loader",
+                            options: {
+                                name: 'dist/img/[name].[ext]'
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+</script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 import koa_router from 'koa-router';
 import marked from 'marked';
 import highlight from 'highlight.js';
+import {render} from '../utils/view-engine.js';
 
 const router = koa_router();
 
@@ -38,5 +39,9 @@ router.get('/question', async (ctx) => {
     ctx.render('../view/question.html');
 });
 
+router.get('/engine',  async (ctx, next) => {
+    ctx.type = 'text/html';
+    ctx.body = await render('page.home', {title: 'engine'}, {title: 'engine'});
+});
 export default router;
 

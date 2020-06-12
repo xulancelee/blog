@@ -13,7 +13,7 @@ console.log(path.resolve('./'));
 
 app.use(koa_json());
 app.use(koa_views(path.resolve('./src/view')));
-app.use(koa_static(path.resolve('./src/view')));
+app.use(koa_static(path.resolve('./src/public')));
 app.use(koa_parser({
     enableTypes: ['json', 'form', 'text']
 }));
