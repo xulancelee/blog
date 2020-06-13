@@ -15,47 +15,20 @@ html, body {
     box-shadow: 20px 20px 20px #ddd;
 }
 .nav-menu {
-    display: none;
-    width: 40px;
+    flex: 0 1 50px;
     background: #0f0;
 }
 .nav-logo {
-    flex: 1 1 40px;
-    width: 40px;
+    flex: 1 1 50px;
     background: #00f;
 }
 .nav-bread {
     flex: 6 0 300px;
-    min-width: 300px;
     background: #f00;
 }
 .nav-search {
-    flex: 3 1 50px;
-    width: 200px;
+    flex: 2 1 100px;
     background: #f0f;
-}
-
-@media (max-width: 768px) {
-    .nav-menu {
-        flex: 0 1 40px;
-        width: 40px;
-        background: #0f0;
-    }
-    .nav-logo {
-        flex: 1 1 40px;
-        width: 40px;
-        background: #00f;
-    }
-    .nav-bread {
-        flex: 6 0 300px;
-        min-width: 300px;
-        background: #f00;
-    }
-    .nav-search {
-        flex: 3 1 50px;
-        width: 200px;
-        background: #f0f;
-    }
 }
 
 .footer {
