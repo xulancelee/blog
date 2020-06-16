@@ -41,7 +41,22 @@ router.get('/question', async (ctx) => {
 
 router.get('/engine',  async (ctx, next) => {
     ctx.type = 'text/html';
-    ctx.body = await render('page.home', {title: 'engine'}, {title: 'engine'});
+    ctx.body = await render('page.home', {title: 'engine'}, {title: 'engine', content: marked('# blog\n' +
+            'xulance personal web blog site.\n' +
+            '\n' +
+            '### File Tree\n' +
+            '##### Back End\n' +
+            '-- package.json\n' +
+            '\n' +
+            '##### Front End\n' +
+            '-- package.json\n' +
+            '\n' +
+            '```js\n' +
+            'function a() {\n' +
+            '    console.log(111);\n' +
+            '    \n' +
+            '}\n' +
+            '```')});
 });
 export default router;
 

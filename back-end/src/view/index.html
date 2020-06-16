@@ -9,47 +9,11 @@
 <!--<h3>内容即将呈现~</h3>-->
 
 
-<div id="template" style="display: none;">
-    @extend(layout)
-    @section(head)
-    <div>head children content {{props.head}}</div>
-    @show
-
-    @section(content)
-    <p>一些奇怪的东西</p>
-    <p>我叫{{this.name}}</p>
-    @if(this.hasIf)
-    <ul>
-        @for(var i = 0; i < this.list.length; i++)
-        <li>if ' {{i}}</li>
-        @endfor
-    </ul>
-    @elseif(this.hasElse)
-    <p>else if</p>
-    @else
-    <p>else</p>
-    @endif
-    <ul>
-        @for(var i = 0; i < this.list.length; i++)
-        <li>{{this.list[i]}}</li>
-        @endfor
-    </ul>
-    @show
-
-    @section(script)
-    <script>
-        (function () {
-            let list = [1,2,3,4,5,6];
-            for (let i = 0; i < list.length; i++) {
-                console.log(i);
-                //123
-            }
-        }())
-    </script>
-    @show
+<div id="template">
+    <input name="123">
 </div>
 
-<div id="layout" style="display: none;">
+<div id="layout">
     <div>head start</div>
     @section(head)
     <div>head end</div>
@@ -65,155 +29,20 @@
     @section(script)
 </div>
 
-<div id="footer" style="display: none;">
+<div id="footer">
     <footer>Copyright &copy; {{new Date().getFullYear()}} {{props.name}} All Right Reserve.</footer>
 </div>
 
+<!--<script src="../public/script/xu.lib.js"></script>-->
+<script src="../public/script/jquery-mini.js"></script>
 <script>
-    const reExt = /^[\s]*?@extend/;
-    const reBrackets = /[()]/g;
-
     (function () {
-        let layout = document.getElementById('layout').innerHTML;
-        let footer = document.getElementById('footer').innerHTML;
-        let template = document.getElementById('template').innerHTML;
-        let module = {
-            layout,
-            footer,
-            template
-        };
-        let scope = {
-            hasIf: true,
-            list: ['one', 'two', 'three']
-        };
-        let props = {
-            head: '[you can write <meta> tag in here!]',
-            name: 'xu.Lance Lee',
-            content: 'I can do more then one page now!'
-        };
+        console.log($('div'));
 
-        function getModule(name) {
-            return module[name];
-        }
-
-        function compile() {
-
-        }
-
-        function translate(parser) {
-            return new Function('props', parser.join(''));
-        }
-
-        function parser(blade, inner, section) {
-            function parserExt() {
-                const reExtend = /@(extend|section|show)(\([^)]*\))?/g;
-                let matchExt = reExtend.exec(blade);
-                let cursor = matchExt.index + matchExt[0].length;
-                let current = '';
-                let section = {};
-
-                let match = reExtend.exec(blade);
-                while (match) {
-                    if(match[1] === 'section') {
-                        current = match[2].replace(reBrackets, '');
-                    } else if (match[1]) {
-                        let snippet = blade.slice(cursor, match.index);
-                        section[current] = parser(snippet, true);
-                    }
-                    cursor = match.index + match[0].length;
-                    match = reExtend.exec(blade);
-                }
-
-                let layout = parser(getModule(matchExt[2].replace(reBrackets, '')), true, section);
-
-                fn.push(...layout);
-            }
-
-            function parserTemp() {
-                function handleCondition(condition, statement) {
-                    statement = statement ? statement.replace(/&lt;|&gt;|&amp;/g, ((substring) => {
-                        switch (substring) {
-                            case '&lt;':
-                                return '<';
-                            case '&gt;':
-                                return '>';
-                            case '&amp;':
-                                return '&';
-                        }
-                    })) : statement;
-
-                    switch (condition) {
-                        case 'section':
-                            let name = statement.replace(reBrackets, '');
-                            if(section[name]) fn.push(...section[name]);
-                            break;
-                        case 'import':
-                            fn.push(...parser(getModule(statement.replace(reBrackets, '')), true));
-                            break;
-                        case 'if':
-                            fn.push('if ' + statement + ' {\n');
-                            break;
-                        case 'elseif':
-                            fn.push('} else if ' + statement + ' {\n');
-                            break;
-                        case 'else':
-                            fn.push('} else {\n');
-                            break;
-                        case 'endif':
-                            fn.push('}\n');
-                            break;
-                        case 'for':
-                            fn.push('for ' + statement + ' {\n');
-                            break;
-                        case 'endfor':
-                            fn.push('}\n');
-                            break;
-                    }
-                }
-
-                function handleVariable(snippet) {
-                    snippet = snippet.trim().replace(/\n/g, "\\n").replace(/'/g, "\\'");
-                    snippet = snippet.replace(reVariable, (substring, statement) => {
-                        return "' + " + statement + " + '"
-                    });
-                    fn.push("temp.push('" + snippet + "');\n");
-                }
-
-                const reCondition = /@(section|import|if|elseif|else|endif|for|endfor)(\([^)]*\))?/g;
-                const reVariable = /{{([^}]+)}}/g;
-
-                let match = reCondition.exec(blade);
-                let cursor = 0;
-
-                while (match) {
-                    handleVariable(blade.slice(cursor, match.index));
-                    handleCondition(match[1], match[2]);
-                    cursor = match.index + match[0].length;
-                    match = reCondition.exec(blade);
-                }
-                handleVariable(blade.slice(cursor));
-            }
-
-            blade = blade.trim();
-            section = section || {};
-            let isExt = reExt.test(blade);
-            let fn = [];
-            !inner && fn.push('let temp = [];');
-            isExt ? parserExt() : parserTemp();
-            !inner && fn.push('return temp.join("")');
-            return fn;
-        }
-
-        let fnParser = parser(template);
-        let fnTranslate = translate(fnParser);
-
-        let result = fnTranslate.call(scope, props);
-        console.log(result);
+        // $('div').on('click', function () {
+        //     console.log(this);
+        // });
     }());
-
-    function f() {
-
-    }
 </script>
 </body>
 </html>

@@ -3,15 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>{{this.title}}</title>
+    <link rel="stylesheet" href="style/markdown.css">
+    <link rel="stylesheet" href="style/gist.css">
     <link rel="stylesheet" href="style/global.css">
     @section(meta)
     @section(style)
     @section(head-script)
 </head>
 <body>
-@import(module.header)
-@section(content)
-@import(module.footer)
+<div class="layout">
+    @import(module.header)
+    <div class="container">
+        @section(content)
+    </div>
+    @import(module.footer)
+</div>
+
+@section(plugin)
+
+<script src="/script/xu.lib.js"></script>
 @section(script)
 </body>
 </html>
