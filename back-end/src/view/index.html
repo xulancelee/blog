@@ -2,47 +2,14 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>{{this.title}}</title>
+    <title>xulance</title>
 </head>
 <body>
-<!--<h1>这是一个待搭建的个人博客！</h1>-->
-<!--<h3>内容即将呈现~</h3>-->
+<h1>这是一个待搭建的个人博客！</h1>
+<h3>内容即将呈现~</h3>
 
-
-<div id="template">
-    <input name="123">
-</div>
-
-<div id="layout">
-    <div>head start</div>
-    @section(head)
-    <div>head end</div>
-
-    <div>children start {{props.content}}</div>
-    @section(content)
-    <div>children end</div>
-
-    <div>import start</div>
-    @import(footer)
-    <div>import end</div>
-
-    @section(script)
-</div>
-
-<div id="footer">
-    <footer>Copyright &copy; {{new Date().getFullYear()}} {{props.name}} All Right Reserve.</footer>
-</div>
-
-<!--<script src="../public/script/xu.lib.js"></script>-->
-<script src="../public/script/jquery-mini.js"></script>
 <script>
-    (function () {
-        console.log($('div'));
 
-        // $('div').on('click', function () {
-        //     console.log(this);
-        // });
-    }());
 </script>
 </body>
 </html>

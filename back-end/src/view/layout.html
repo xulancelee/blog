@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{{this.title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    @section(meta)
     <link rel="stylesheet" href="style/markdown.css">
     <link rel="stylesheet" href="style/gist.css">
     <link rel="stylesheet" href="style/global.css">
-    @section(meta)
     @section(style)
     @section(head-script)
 </head>
@@ -18,6 +19,8 @@
     </div>
     @import(module.footer)
 </div>
+
+
 
 @section(plugin)
 
