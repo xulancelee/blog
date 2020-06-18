@@ -1,17 +1,3 @@
-/*@primary-color: #1890ff; // 全局主色*/
-/*@link-color: #1890ff; // 链接色*/
-/*@success-color: #52c41a; // 成功色*/
-/*@warning-color: #faad14; // 警告色*/
-/*@error-color: #f5222d; // 错误色*/
-/*@font-size-base: 14px; // 主字号*/
-/*@heading-color: rgba(0, 0, 0, 0.85); // 标题色*/
-/*@text-color: rgba(0, 0, 0, 0.65); // 主文本色*/
-/*@text-color-secondary: rgba(0, 0, 0, 0.45); // 次文本色*/
-/*@disabled-color: rgba(0, 0, 0, 0.25); // 失效色*/
-/*@border-radius-base: 4px; // 组件/浮层圆角*/
-/*@border-color-base: #d9d9d9; // 边框色*/
-/*@box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // 浮层阴影*/
-
 :root {
     --font-size: 16px;
     --body-background: #fff;
@@ -38,6 +24,9 @@ html, body {
     min-height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, sans-serif;
     color: var(--text-color);
+    line-height: 1.62;
+    word-spacing: .2em;
+    letter-spacing: .03em;
 }
 @media all and (min-width: 768px) {
     html, body {
@@ -62,6 +51,9 @@ i.icon {
 .limit {
     width: 888px;
     margin: auto;
+}
+p{
+    margin-top: -.2em;
 }
 
 /*markdown*/
@@ -103,7 +95,7 @@ i.icon {
     display: block;
     text-align: right;
     float: right;
-    width: 150px;
+    width: 156px;
     height: 56px;
     line-height: 56px;
     overflow: hidden;
@@ -143,6 +135,7 @@ i.icon {
     margin: auto;
     outline: none;
     border: 0;
+    color: inherit;
     transition: width .22s linear;
     border-bottom: 1px solid #aaa;
     background: var(--head-background);
@@ -156,7 +149,7 @@ i.icon {
 }
 .nav-search:hover > input,
 .nav-search > input:focus{
-    width: 200px;
+    width: 156px;
     padding: 2px 10px;
     transition: padding .02s linear .2s, width .3s linear .22s;
 }
@@ -168,7 +161,6 @@ i.icon {
         transition: color .2s linear, width .04s linear .2s;
     }
 }
-
 
 /*footer*/
 .footer {
@@ -187,4 +179,5 @@ i.icon {
     width: 100%;
     max-width: 888px;
     padding: 20px;
+    margin: auto;
 }

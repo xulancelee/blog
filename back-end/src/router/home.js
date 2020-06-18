@@ -13,7 +13,7 @@ marked.setOptions({
 
 router.get('/', async (ctx) => {
     let scope = {
-        title: '飞夕说'
+        title: '飞夕言'
     };
     let props = {};
     ctx.type = 'text/html';

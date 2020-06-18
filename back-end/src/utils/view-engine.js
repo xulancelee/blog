@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 
-const DEBUG = false;
+const DEBUG = true;
 
 const bladePath = path.resolve('./src/view');
 const reExt = /^[\s]*?@extend/;
