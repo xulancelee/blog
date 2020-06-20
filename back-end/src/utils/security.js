@@ -1,4 +1,4 @@
-const md5 = require('md5');
+import md5 from 'md5';
 const keyGen = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 const publicKeyGen = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
 const privateKey = 'pjzeslxmtnvgkb/faiyhdoW+=YwruXZcq';
@@ -142,7 +142,7 @@ function decodeTSL(publicKey, tslStr) {
     return decrypt(keygen, tslStr);
 }
 
-module.exports = {
+export default {
     md5,
     createCryStr,
     createPublicKey,

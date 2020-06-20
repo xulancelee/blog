@@ -38,6 +38,22 @@ html, body {
         font-size: 16px;
     }
 }
+@media all and (max-width: 600px) {
+    html, body {
+        font-size: 14px;
+    }
+}
+p {
+    margin-top: -.2em;
+}
+a {
+    color: inherit;
+}
+a:visited,
+a:hover{
+    color: #7d6d65;
+}
+
 i.icon {
     width: 1em;
     height: 1em;
@@ -52,9 +68,7 @@ i.icon {
     width: 888px;
     margin: auto;
 }
-p{
-    margin-top: -.2em;
-}
+
 
 /*markdown*/
 
@@ -71,7 +85,7 @@ p{
     max-width: 888px;
     margin: auto;
 }
-.header-limit:after{
+.header-limit:after {
     content: '';
     display: table;
     clear: both;
@@ -99,7 +113,7 @@ p{
     height: 56px;
     line-height: 56px;
     overflow: hidden;
-    transition: width .01s linear .22s ,color .2s linear .26s;
+    transition: width .01s linear .5s, color .2s linear .5s;
 }
 .nav-bread > a {
     display: inline-block;
@@ -124,7 +138,7 @@ p{
     margin: auto;
     position: relative;
 }
-.nav-search > i.icon svg{
+.nav-search > i.icon svg {
     position: absolute;
 }
 .nav-search > input {
@@ -145,17 +159,26 @@ p{
     color: #777;
 }
 .nav-search:hover {
-    /*width: 238px;*/
+
 }
 .nav-search:hover > input,
-.nav-search > input:focus{
+.nav-search > input:focus {
     width: 156px;
     padding: 2px 10px;
     transition: padding .02s linear .2s, width .3s linear .22s;
 }
 @media all and (max-width: 560px) {
+    .nav-search:hover > input {
+        width: 0;
+        padding: 0;
+    }
 
-    .nav-search:hover + .nav-bread{
+    .nav-search.hover > input {
+        width: 156px;
+        padding: 2px 10px;
+    }
+
+    .nav-search.hover + .nav-bread {
         width: 0;
         color: var(--head-background);
         transition: color .2s linear, width .04s linear .2s;

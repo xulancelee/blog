@@ -1,27 +1,23 @@
 /*journal-list*/
-.journal-list{
+.journal-list {
     display: flex;
     flex-direction: column;
 }
-
-.journal-list > li{
+.journal-list > li {
     display: flex;
 }
-
-.journal-list .date{
-    width: 116px;
-    padding: 10px;
+.journal-list .date {
+    padding: 10px 10px 10px 0;
     text-align: right;
     font-weight: 600;
 }
-
-.journal-list .preview{
+.journal-list .preview {
     width: calc(100% - 116px);
     padding: 10px 10px 10px 20px;
     border-left: 1px solid var(--text-color);
     position: relative;
 }
-.journal-list .preview:before{
+.journal-list .preview:before {
     content: '';
     display: block;
     width: 9px;
@@ -33,22 +29,41 @@
     left: -7px;
     top: 1.1em;
 }
-.journal-list .preview h3{
+.journal-list .preview h3 {
     margin-bottom: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
-.journal-list .image{
-    float: left;
-    width: 240px;
-    max-height: 135px;
+.journal-list .intro {
+    display: flex;
+    flex-direction: row;
+}
+.journal-list .image {
+    width: 36%;
+    max-height: calc(24vh);
     margin-right: 1em;
-    margin-bottom: 1em;
     text-align: center;
     overflow: hidden;
 }
-.journal-list .image img{
+.journal-list .image img {
     width: 100%;
 }
+.journal-list .description {
+    width: 64%;
+}
+@media all and (max-width: 560px) {
+    .journal-list .date {
+        display: none;
+    }
 
-.journal-list .description{
+    .journal-list .preview {
+        width: 100%;
+        padding: 10px 0;
+        border: none;
+    }
 
+    .journal-list .preview:before {
+        display: none;
+    }
 }

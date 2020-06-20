@@ -4,8 +4,8 @@
             <img src="/img/logo.png" alt="logo">
         </div>
         <div class="nav-search">
-            <input class="" title="搜索" placeholder="">
-            <i class="icon">
+            <input class="" title="搜索" placeholder="" id="nav-search">
+            <i class="icon" id="nav-search-icon">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      width="1em"
                      height="1em"
@@ -31,6 +31,21 @@
 
 <script type="text/javascript">
     (function () {
-
+        let $search = $('#nav-search');
+        $('#nav-search-icon').on('click', function () {
+            let val = $search.val();
+            if(val) {
+                window.open('//www.baidu.com/s?wd='+ val +' site:www.xulance.com');
+                $search.val('');
+                $(this).parent().toggleClass('hover');
+            } else $(this).parent().toggleClass('hover');
+        });
+        $search.on('keydown', function (ev) {
+            if(ev.key.toLocaleLowerCase() === 'enter') {
+                let val = $search.val();
+                if(val) window.open('//www.baidu.com/s?wd='+ val +' site:www.xulance.com');
+                $search.val('');
+            }
+        });
     }());
 </script>

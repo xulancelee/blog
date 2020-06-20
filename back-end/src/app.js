@@ -3,6 +3,7 @@ import Koa from 'koa';
 import koa_json from 'koa-json';
 import koa_static from 'koa-static';
 import koa_parser from 'koa-bodyparser';
+import authorize from './utils/authorize.js';
 
 import home from './router/home.js';
 import journal from './router/journal.js';
@@ -12,6 +13,7 @@ const app = new Koa();
 
 app.use(koa_json());
 app.use(koa_static(path.resolve('./src/public')));
+app.use(authorize);
 app.use(koa_parser({
     enableTypes: ['json', 'form', 'text']
 }));

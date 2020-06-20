@@ -1,4 +1,5 @@
 import koa_router from 'koa-router';
+import security from "../utils/security.js";
 import marked from 'marked';
 import highlight from 'highlight.js';
 import {render} from '../utils/view-engine.js';
@@ -20,43 +21,41 @@ router.get('/', async (ctx) => {
     ctx.body = await render('page.home', scope, props);
 });
 
-//id int auto_increment,
-// 	link varchar(64) not null,
-// 	title varchar(64) null,
-// 	description varchar(1024) null,
-// 	preview_img varchar(256) null,
-// 	ext varchar(16) null,
-// 	type varchar(16) null,
-// 	tag varchar(256) null,
-// 	create_date datetime null,
-// 	modify_date datetime null
+router.get('/sign', async (ctx) => {
 
-// router.get('/md', async (ctx) => {
-//     ctx.type = 'text/html';
-//     ctx.body = marked('# blog\n' +
-//         'xulance personal web blog site.\n' +
-//         '\n' +
-//         '### File Tree\n' +
-//         '##### Back End\n' +
-//         '-- package.json\n' +
-//         '\n' +
-//         '##### Front End\n' +
-//         '-- package.json\n' +
-//         '\n' +
-//         '```js\n' +
-//         'function a() {\n' +
-//         '    console.log(111);\n' +
-//         '    \n' +
-//         '}\n' +
-//         '```');
-// });
-//
-// router.get('/question', async (ctx) => {
-//     ctx.render('../view/question.html');
-// });
-//
-// router.get('/engine',  async (ctx, next) => {
-//
-// });
+});
+
+router.get('/sign/in', async (ctx) => {
+    let loginToken = ctx.request.body['token'];
+    let userInfo = {
+        name: 'xulance',
+        auth: 'developer'
+    };
+
+    if (userInfo) {
+        let now = new Date();
+        let header = {alg: 'base-crypt', typ: 'jwt'};
+        let payload = {
+            exp: now.setHours(now.getHours() + 6),
+            name: userInfo['name'],
+            auth: userInfo['auth']
+        };
+        let signature = security.createPublicKey();
+        let token = [
+            security.encodeTSL(signature, header),
+            security.encodeTSL(signature, payload),
+            signature
+        ].join('.');
+
+        ctx.body = {
+            name: userInfo['name'],
+            auth: userInfo['auth'],
+            token: token
+        };
+    } else {
+        ctx.body = 'Unknown user or wrong password!';
+    }
+});
+
 export default router;
 
