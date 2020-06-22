@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In Platform - 飞夕言</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <link rel="stylesheet" href="/style/global.css">
+    <script type="text/javascript" src="/script/xu.lib.js"></script>
+</head>
+<body>
+<div class="sign-layout">
+    <form class="sign-form" id="sign-form">
+        <div class="sign-logo">
+            <img src="/img/logo.png" alt="log">
+        </div>
+        <div class="form-control">
+            <i class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="1em"
+                     height="1em"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </i>
+            <input class="form-item" type="text" placeholder="username" title="" name="username">
+            <div class="form-explain">Please input your username!</div>
+        </div>
+        <div class="form-control">
+            <i class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="1em"
+                     height="1em"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </i>
+            <input class="form-item" type="password" placeholder="password" title="" name="password">
+            <div class="form-explain">Please input your password!</div>
+        </div>
+        <div class="form-control">
+            <div class="button" id="sign-form-submit">Sign In</div>
+            <div class="form-explain" id="sign-error"></div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        const $form = $('#sign-form');
+        const $user = $form.find('[name="username"]');
+        const $pwd = $form.find('[name="password"]');
+
+
+        $('#sign-form-submit').on('click', function () {
+            let data = $form.formData();
+            if(!$user.val()) return $user.one('keyup', function () {
+                $(this).up('.form-control').removeClass('error');
+            }).up('.form-control').addClass('error');
+            if(!$pwd.val()) return $pwd.one('keyup', function () {
+                $(this).up('.form-control').removeClass('error');
+            }).up('.form-control').addClass('error');
+
+            $.post('/sign/in', data).then(function (res) {
+                if(res.result) {
+                    $.setAuth(res.data.token);
+                    localStorage.setItem('__USER_INFO', JSON.stringify(res.data));
+                    location.href = '/platform';
+                } else $('#sign-error').text(res.message).up('.form-control').addClass('error');
+            })
+        });
+    }());
+</script>
+</body>
+</html>

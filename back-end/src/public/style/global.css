@@ -50,13 +50,17 @@ a {
     color: inherit;
 }
 a:visited,
-a:hover{
+a:hover {
     color: #7d6d65;
 }
-
 i.icon {
     width: 1em;
     height: 1em;
+}
+i.icon svg {
+    position: relative;
+    left: 0;
+    top: 0;
 }
 .layout {
     width: 100%;
@@ -68,6 +72,151 @@ i.icon {
     width: 888px;
     margin: auto;
 }
+
+/*global*/
+.button,
+button {
+    height: 32px;
+    line-height: 32px;
+    padding: 0 1em;
+    border-radius: 2px;
+    color: #fff;
+    background: var(--primary);
+    outline: none;
+    border: 1px solid var(--primary);
+    opacity: 1;
+    transition: all .22s linear;
+    cursor: pointer;
+    text-align: center;
+}
+.button:hover,
+button:hover {
+    opacity: 0.8;
+}
+.button.primary,
+button.primary {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+.button.warning,
+button.warning {
+    background: var(--warning);
+    border-color: var(--warning);
+}
+.button.error,
+button.error {
+    background: var(--error);
+    border-color: var(--error);
+}
+.button.success,
+button.success {
+    background: var(--success);
+    border-color: var(--success);
+}
+.form-item {
+    height: 32px;
+    padding: 0 1em;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    border-radius: 2px;
+    outline: none;
+    background: inherit;
+    caret-color: var(--text-color);
+    transition: all .22s linear;
+}
+.form-item:hover,
+.form-item:focus {
+    border: 1px solid var(--primary);
+}
+.form-control {
+    padding: 5px 0;
+}
+.form-control:after{
+    content: '';
+    display: table;
+    clear: both;
+}
+.form-explain {
+    visibility: hidden;
+    height: 1.2rem;
+    padding: 0.2rem 0;
+    color: var(--primary);
+    font-size: 0.8em;
+}
+.form-label {
+    float: left;
+    width: 160px;
+    padding: 0 20px;
+    text-align: right;
+    line-height: 32px;
+}
+.form-label.must:before{
+    content: '*';
+    color: var(--error);
+}
+.form-control.error .form-item {
+    border-color: var(--error);
+}
+.form-control.error .form-explain {
+    visibility: visible;
+    color: var(--error);
+}
+.form-control.warning .form-item {
+    border-color: var(--warning);
+}
+.form-control.warning .form-explain {
+    visibility: visible;
+    color: var(--warning);
+}
+.form-control .icon {
+    position: absolute;
+    left: 0.5em;
+    line-height: 34px;
+}
+.form-control .icon + .form-item {
+    padding-left: 2em;
+}
+
+
+/*sign*/
+.sign-layout {
+    width: 100%;
+    height: 100%;
+    background: #333;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.sign-form {
+    width: 280px;
+    height: 350px;
+    margin-left: -140px;
+    margin-top: -225px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+.sign-form .sign-logo {
+    width: 96px;
+    height: 96px;
+    margin: 2em auto;
+}
+.sign-form .sign-logo img {
+    width: 100%;
+    height: 100%;
+}
+.sign-form .form-item,
+.sign-form .button {
+    width: 100%;
+}
+.sign-form,
+.sign-form .form-item {
+    color: #fff8;
+}
+
+/*publish*/
 
 
 /*markdown*/

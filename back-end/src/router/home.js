@@ -13,25 +13,30 @@ marked.setOptions({
 });
 
 router.get('/', async (ctx) => {
-    let scope = {
-        title: '飞夕言'
-    };
+    let scope = ctx.scope || {};
     let props = {};
+    scope['title'] = '飞夕言';
     ctx.type = 'text/html';
     ctx.body = await render('page.home', scope, props);
 });
 
 router.get('/sign', async (ctx) => {
-
+    let scope = ctx.scope || {};
+    let props = {};
+    ctx.type = 'text/html';
+    ctx.body = await render('platform.sign', scope, props);
 });
 
-router.get('/sign/in', async (ctx) => {
-    let loginToken = ctx.request.body['token'];
-    let userInfo = {
+router.get('/auth', async (ctx) => {
+    ctx.body = true;
+});
+
+router.post('/sign/in', async (ctx) => {
+    let req = ctx.request.body;
+    let userInfo = req['username'] !== 'xulance' || req['password'] !== 'lance123456' ? null : {
         name: 'xulance',
         auth: 'developer'
     };
-
     if (userInfo) {
         let now = new Date();
         let header = {alg: 'base-crypt', typ: 'jwt'};
@@ -46,16 +51,18 @@ router.get('/sign/in', async (ctx) => {
             security.encodeTSL(signature, payload),
             signature
         ].join('.');
-
         ctx.body = {
             name: userInfo['name'],
             auth: userInfo['auth'],
             token: token
         };
     } else {
-        ctx.body = 'Unknown user or wrong password!';
+        ctx.type = 'application/json; charset=utf-8';
+        ctx.body = 'Unknown username or wrong password!';
     }
 });
+
+
 
 export default router;
 

@@ -1,0 +1,10 @@
+.publish-form{
+
+}
+
+.publish-form .form-control{
+
+}
+.publish-form .form-item{
+    width: calc(100% - 160px);
+}
