@@ -35,7 +35,7 @@ router.post('/sign/in', async (ctx) => {
     let req = ctx.request.body;
     let userInfo = req['username'] !== 'xulance' || req['password'] !== 'lance123456' ? null : {
         name: 'xulance',
-        auth: 'developer'
+        role: 'developer'
     };
     if (userInfo) {
         let now = new Date();
@@ -43,7 +43,7 @@ router.post('/sign/in', async (ctx) => {
         let payload = {
             exp: now.setHours(now.getHours() + 6),
             name: userInfo['name'],
-            auth: userInfo['auth']
+            role: userInfo['role']
         };
         let signature = security.createPublicKey();
         let token = [
@@ -51,9 +51,15 @@ router.post('/sign/in', async (ctx) => {
             security.encodeTSL(signature, payload),
             signature
         ].join('.');
+        ctx.cookies.set('token', token, {
+            maxAge: 6 * 60 * 60 * 1000,
+            expires: payload.exp,
+            httpOnly: false,
+            overwrite: true
+        });
         ctx.body = {
             name: userInfo['name'],
-            auth: userInfo['auth'],
+            role: userInfo['role'],
             token: token
         };
     } else {

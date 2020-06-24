@@ -14,6 +14,10 @@
     --success: #52c41a;
     --info: #f90;
 }
+::selection {
+    background: #7f6c5c;
+    color: #fff;
+}
 * {
     margin: 0;
     padding: 0;
@@ -42,9 +46,6 @@ html, body {
     html, body {
         font-size: 14px;
     }
-}
-p {
-    margin-top: -.2em;
 }
 a {
     color: inherit;
@@ -128,10 +129,38 @@ button.success {
 .form-item:focus {
     border: 1px solid var(--primary);
 }
+.form-item[type="file"] {
+    display: none;
+    border: none;
+    padding: 0;
+}
+.form-file {
+    display: inline-block;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 1em;
+    border-radius: 2px;
+    color: #fff;
+    background: var(--primary);
+    outline: none;
+    border: 1px solid var(--primary);
+    opacity: 1;
+    transition: all .22s linear;
+    cursor: pointer;
+    text-align: center;
+}
+.form-file-name {
+    display: inline-block;
+    width: calc(100% - 400px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
 .form-control {
     padding: 5px 0;
 }
-.form-control:after{
+.form-control:after {
     content: '';
     display: table;
     clear: both;
@@ -150,7 +179,7 @@ button.success {
     text-align: right;
     line-height: 32px;
 }
-.form-label.must:before{
+.form-label.must:before {
     content: '*';
     color: var(--error);
 }

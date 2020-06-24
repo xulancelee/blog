@@ -62,16 +62,14 @@
         const $user = $form.find('[name="username"]');
         const $pwd = $form.find('[name="password"]');
 
-
-        $('#sign-form-submit').on('click', function () {
+        function signIn() {
             let data = $form.formData();
-            if(!$user.val()) return $user.one('keyup', function () {
+            if(!data['username']) return $user.focus().one('keyup', function () {
                 $(this).up('.form-control').removeClass('error');
             }).up('.form-control').addClass('error');
-            if(!$pwd.val()) return $pwd.one('keyup', function () {
+            if(!data['password']) return $pwd.focus().one('keyup', function () {
                 $(this).up('.form-control').removeClass('error');
             }).up('.form-control').addClass('error');
-
             $.post('/sign/in', data).then(function (res) {
                 if(res.result) {
                     $.setAuth(res.data.token);
@@ -79,7 +77,18 @@
                     location.href = '/platform';
                 } else $('#sign-error').text(res.message).up('.form-control').addClass('error');
             })
-        });
+        }
+
+        $.clearAuth();
+        $('#sign-form-submit').on('click', signIn);
+        $form.on('keydown', 'input', function (ev) {
+            if(ev.key && ev.key.toLocaleLowerCase() === 'enter') {
+                let data = $form.formData();
+                if(!data['username']) return $user.focus();
+                if(!data['password']) return $pwd.focus();
+                signIn();
+            }
+        })
     }());
 </script>
 </body>

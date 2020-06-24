@@ -26,15 +26,19 @@
   "homepage": "https://github.com/xulancelee/blog#readme",
   "dependencies": {
     "babel-preset-react": "^6.24.1",
+    "busboy": "^0.3.1",
+    "formidable": "^1.2.2",
     "highlight.js": "^10.0.3",
     "koa": "^2.12.0",
     "koa-bodyparser": "^4.3.0",
     "koa-json": "^2.0.2",
+    "koa-multer": "^1.0.2",
     "koa-router": "^8.0.8",
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.3",
     "marked": "latest",
-    "md5": "^2.2.1"
+    "md5": "^2.2.1",
+    "mysql2": "^2.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

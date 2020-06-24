@@ -10,3 +10,8 @@
 
 # log
 /log
+
+# static
+/src/public/storage
+/src/public/resource
+/src/public/journal

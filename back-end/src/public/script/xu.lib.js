@@ -26,6 +26,8 @@
 }(typeof window !== "undefined" ? window : this, function (global, noGlobal) {
     "use strict";
     const version = '2020.6';
+    const noop = function () {
+    };
     const indexOf = function (arr, item) {
         return Array.prototype.indexOf.call(arr, item)
     };
@@ -47,8 +49,27 @@
                                 reject(new SyntaxError('Response Json data parsing error.'));
                             }
                         } else resolve(content)
-                    } else reject(xhr);
+                    } else {
+                        let errorInfo = {
+                            status: xhr.status
+                        };
+                        if (content) {
+                            try {
+                                errorInfo['response'] = JSON.parse(content);
+                            } catch (e) {
+                                errorInfo['response'] = null;
+                                errorInfo['error'] = new SyntaxError('Response Json data parsing error.');
+                            }
+                        }
+                        reject(errorInfo);
+                    }
                 }
+            }
+        }).catch(function (errorInfo) {
+            let res = errorInfo.response;
+            if (res) {
+                if (res.code === 301 || res.code === 302) location.href = res.data;
+                else if (res.code === 401) location.href = '/sign';
             }
         });
     };
@@ -66,7 +87,7 @@
     xuLib.xu = Xu.prototype = {
         constructor: xuLib,
         ver: version,
-        on: function (event, filter, handler, isOne) {
+        on(event, filter, handler, isOne) {
             if (typeof filter === 'function') {
                 handler = filter;
                 filter = undefined;
@@ -74,10 +95,9 @@
             let _t = this;
             let proxy = function (ev) {
                 function catchTarget() {
-                    for (let i = 0; i < ev.path.length; i++) {
-                        target = ev.path[i];
+                    while (target && target !== _t.$e) {
                         if (hasIn(filterList, target)) break;
-                        if (target === _t.$e) break;
+                        target = target.parent;
                     }
                 }
 
@@ -92,24 +112,24 @@
             this.$e.addEventListener(event, proxy);
             return this;
         },
-        one: function (event, filter, handler) {
+        one(event, filter, handler) {
             this.on(event, filter, handler, true);
             return this;
         },
-        off: function (event, handler) {
+        off(event, handler) {
             this.$e.removeEventListener(event, handler);
             return this;
         },
-        find: function (selector) {
+        find(selector) {
             return xuLib(this.query(selector));
         },
-        is: function (selector) {
+        is(selector) {
             if (!this.$e || this.$e === document) return false;
             let $parent = this.parent();
             if (!$parent.$e) return false;
             return hasIn($parent.queryAll(selector), this.$e)
         },
-        val: function (val) {
+        val(val) {
             let has = val !== undefined;
             switch (this.$e.tagName) {
                 case 'textarea':
@@ -124,60 +144,80 @@
             }
             return this;
         },
-        html: function (html) {
+        html(html) {
             let has = html !== undefined;
             html = html instanceof Array ? html : [html];
             if (has) this.$e.innerHTML = html.join('');
             else return this.$e.innerHTML;
             return this;
         },
-        text: function (text) {
+        text(text) {
             let has = text !== undefined;
             text = text instanceof Array ? text : [text];
             if (has) this.$e.innerText = text.join('');
             else return this.$e.innerText;
             return this;
         },
-        up: function (selector) {
+        attr(key, val) {
+            let has = val !== undefined;
+            if (has) this.$e.setAttribute(key, val);
+            else return this.$e.getAttribute(key);
+            return this;
+        },
+        focus() {
+            this.$e.focus();
+            return this;
+        },
+        up(selector) {
             let $tar = this;
             while (!$tar.is(selector) && $tar.$e !== document.body) {
                 $tar = $tar.parent();
             }
             return $tar;
         },
-        parent: function () {
+        parent() {
             return xuLib(this.$e.parentElement || this.$e.parentNode);
         },
-        sibling: function (selector) {
+        sibling(selector) {
             return xuLib(this.parent().query(selector));
         },
-        toggleClass: function (className) {
+        toggleClass(className) {
             this.$e.classList.toggle(className);
             return this;
         },
-        addClass: function (className) {
+        addClass(className) {
             this.$e.classList.add(className);
             return this;
         },
-        removeClass: function (className) {
+        removeClass(className) {
             this.$e.classList.remove(className);
             return this;
         },
-        query: function (selector) {
+        query(selector) {
             return this.$e.querySelector(selector)
         },
-        queryAll: function (selector) {
+        queryAll(selector) {
             return this.$e.querySelectorAll(selector)
         },
-        formData: function (type) {
+        formData(type) {
             function append(key, value) {
                 type !== 'form' ? (data[key] = value) : data.append(key, value);
             }
 
             let data = type !== 'form' ? {} : new FormData();
             this.queryAll('input,textarea,select').forEach(function (item) {
-                let val = item.value || item.getAttribute('data-val') || item.getAttribute('placeholder') || '';
-                append(item.name, val);
+                let type = item.type;
+                switch (type) {
+                    case 'file':
+                        let files = item.files;
+                        for (let i = 0; i < files.length; i++) append(item.name, files[0]);
+                        break;
+                    case 'text':
+                    default:
+                        let val = item.value || item.getAttribute('data-val') || '';
+                        append(item.name, val);
+                        break;
+                }
             });
             return data;
         }
@@ -188,6 +228,10 @@
     };
     xuLib.setAuth = function (token) {
         localStorage.setItem('__USER_AUTHORIZATION', token);
+    };
+    xuLib.clearAuth = function () {
+        localStorage.removeItem('__USER_AUTHORIZATION');
+        localStorage.removeItem('__USER_INFO');
     };
     xuLib.get = function (url) {
         let xhr = new XMLHttpRequest();
@@ -204,11 +248,12 @@
         xhr.send(JSON.stringify(data));
         return xhrChange(xhr);
     };
-    xuLib.upload = function (url, formData) {
+    xuLib.upload = function (url, formData, fnProgress) {
         let xhr = new XMLHttpRequest();
         xhr.open('POST', url);
         xhr.setRequestHeader('Authorization', this.getAuth());
         xhr.send(formData);
+        xhr.upload.onprogress = typeof fnProgress === "function" ? fnProgress : noop;
         return xhrChange(xhr);
     };
 

@@ -2,17 +2,12 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>{{this.username}} - {{this.title}}</title>
+    <title>{{this.title}}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     @section(meta)
     <link rel="stylesheet" href="/style/global.css">
     @section(style)
     <script type="text/javascript" src="/script/xu.lib.js"></script>
-    <script type="text/javascript">
-        $.get('/auth').then(function (res) {
-            if(!res.data) location.href = '/sign';
-        });
-    </script>
     @section(head-script)
 </head>
 <body>

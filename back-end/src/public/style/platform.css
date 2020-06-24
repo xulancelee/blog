@@ -1,10 +1,120 @@
-.publish-form{
+/*publish*/
+.publish-form {
 
 }
+.publish-form:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+.publish-form .form-control {
+    margin-bottom: 20px;
+}
+.publish-form .form-item {
+    width: calc(100% - 208px);
+}
+.publish-form .word-count {
+    float: right;
+    width: 48px;
+    text-align: center;
+    line-height: 32px;
+}
+.publish-button {
+    float: right;
+    padding: 0 50px;
+    height: 50px;
+    line-height: 50px;
+}
+.form-preview {
+    display: inline-block;
+    width: 212px;
+    height: 140px;
+    border: 1px solid var(--text-color);
+    text-align: center;
+}
+.form-preview img {
+    display: inline-block;
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+}
 
-.publish-form .form-control{
+/*resource*/
+.resource-ctrl {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+.resource-ctrl .ctrl-btn {
+    width: 32px;
+    height: 32px;
+    margin-right: 20px;
+    color: #fff;
+    background: var(--primary);
+    border-radius: 4px;
+    font-size: 20px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+.resource-ctrl .ctrl-btn:hover {
+    opacity: 0.8;
+}
+.resource-ctrl .ctrl-btn svg {
+    vertical-align: middle;
+    margin-top: -10px;
+    margin-left: -10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.resource-layout {
+    display: flex;
+}
+.resource-tree {
+    flex: 6 6;
+    padding: 20px 0;
+}
+.resource-tree .item {
+    display: flex;
+    height: 32px;
+    margin-bottom: 1px;
+    cursor: default;
+}
+.resource-tree .item:hover {
+    background: #af9683;
+}
+.resource-tree .icon {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+    position: relative;
+}
+.resource-tree .icon svg {
+    vertical-align: middle;
+    margin-top: -10px;
+    margin-left: -10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.resource-tree .name {
+    line-height: 32px;
+}
+
+.resource-info {
+    flex: 4 4;
+    padding: 20px;
+    border-left: 1px solid #eee;
 
 }
-.publish-form .form-item{
-    width: calc(100% - 160px);
+.resource-preview {
+    width: 64px;
+    height: 64px;
+}
+.resource-detail {
+
+}
+.resource-detail p {
+
 }
