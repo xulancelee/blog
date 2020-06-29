@@ -97,7 +97,7 @@
                 function catchTarget() {
                     while (target && target !== _t.$e) {
                         if (hasIn(filterList, target)) break;
-                        target = target.parent;
+                        target = target.parentNode || target.parent;
                     }
                 }
 
@@ -157,6 +157,15 @@
             if (has) this.$e.innerText = text.join('');
             else return this.$e.innerText;
             return this;
+        },
+        append(html) {
+            html = html instanceof Array ? html : [html];
+            html.unshift(this.$e.innerHTML);
+            this.$e.innerHTML = html.join('');
+            return this;
+        },
+        remove() {
+            this.parent().$e.removeChild(this.$e);
         },
         attr(key, val) {
             let has = val !== undefined;

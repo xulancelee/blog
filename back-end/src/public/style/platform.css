@@ -74,12 +74,16 @@
 .resource-tree {
     flex: 6 6;
     padding: 20px 0;
+    width: calc(60%);
 }
 .resource-tree .item {
     display: flex;
     height: 32px;
     margin-bottom: 1px;
     cursor: default;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .resource-tree .item:hover {
     background: #af9683;
@@ -101,20 +105,40 @@
 .resource-tree .name {
     line-height: 32px;
 }
+.resource-tree .new-dir{
+    width: calc(100% - 60px);
+    padding: 0 1em;
+    border: 1px solid var(--text-color);
+    border-radius: 4px;
+}
 
 .resource-info {
     flex: 4 4;
+    width: calc(40%);
     padding: 20px;
     border-left: 1px solid #eee;
-
 }
 .resource-preview {
     width: 64px;
     height: 64px;
+    line-height: 62px;
+    text-align: center;
+    font-size: 62px;
+}
+.resource-preview img{
+    display: inline-block;
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+}
+.resource-preview svg{
+
 }
 .resource-detail {
-
+    max-width: 100%;
 }
 .resource-detail p {
-
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

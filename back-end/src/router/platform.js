@@ -26,16 +26,21 @@ router.get('/list*', async ctx => {
     ctx.body = await controller.listSource(ctx.params[0]);
 });
 
-router.post('/upload', async ctx => {
-    let save = controller.saveDir('journal');
-    let form = await controller.multiParse(ctx.req, save, true, 'link');
+router.post('/mkdir', async ctx => {
+    let req = ctx.request.body;
+    let dir = req['path'] + '/' + req['name'];
+    ctx.body = controller.mkdir(dir);
+});
 
+router.post('/upload*', async ctx => {
+    let save = '/resource' + ctx.params[0];
+    let form = await controller.multiParse(ctx.req, save);
     return ctx.body = form;
 });
 
 router.post('/publish', async ctx => {
     ctx.type = 'application/json';
-    let save = controller.saveDir('journal');
+    let save = '/journal';
     let form = await controller.multiParse(ctx.req, save, true, 'link');
     let file = form.files[0];
     if (!file.success) return ctx.body = 'File save fail!';

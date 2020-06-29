@@ -6,7 +6,7 @@
 
 @section(content)
 <div class="resource-ctrl">
-    <div class="ctrl-btn">
+    <div class="ctrl-btn" id="back">
         <svg xmlns="http://www.w3.org/2000/svg"
              width="1em"
              height="1em"
@@ -20,7 +20,7 @@
             <polyline points="5 12 12 5 19 12"></polyline>
         </svg>
     </div>
-    <div class="ctrl-btn">
+    <div class="ctrl-btn" id="mkdir">
         <svg xmlns="http://www.w3.org/2000/svg"
              width="1em"
              height="1em"
@@ -34,7 +34,7 @@
             <line x1="9" y1="14" x2="15" y2="14"></line>
         </svg>
     </div>
-    <div class="ctrl-btn">
+    <div class="ctrl-btn" id="upload">
         <svg xmlns="http://www.w3.org/2000/svg"
              width="1em"
              height="1em"
@@ -52,67 +52,18 @@
     </div>
 </div>
 <div class="resource-layout">
-    <div class="resource-tree">
-        <div class="item">
-            <span class="icon">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="1em"
-                     height="1em"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                </svg>
-            </span>
-            <span class="name">
-                dirName
-            </span>
-        </div>
-        <div class="item">
-            <span class="icon">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="1em"
-                     height="1em"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                <polyline points="21 15 16 10 5 21"></polyline>
-            </svg>
-            </span>
-            <span class="name">
-                fileName.jpg
-            </span>
-        </div>
-        <div class="item">
-            <span class="icon">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="1em"
-                     height="1em"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
+    <div class="resource-tree" id="tree"></div>
+    <div class="resource-info" id="info">
+        <div class="resource-preview">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="1em" height="1em"
+                 viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="icon icon-md">
                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                 <polyline points="13 2 13 9 20 9"></polyline>
             </svg>
-            </span>
-            <span class="name">
-                fileName.md
-            </span>
         </div>
-    </div>
-    <div class="resource-info">
-        <div class="resource-preview"></div>
         <div class="resource-detail">
             <p>size</p>
             <p>name</p>
@@ -121,13 +72,154 @@
         </div>
     </div>
 </div>
-
 @show
 
 @section(script)
 <script type="text/javascript">
     (function () {
+        const $tree = $('#tree');
+        const $info = $('#info');
+        const DirPath = [];
 
+        function eventHandler() {
+            $('#back').on('click', function () {
+                if (DirPath.length > 0) {
+                    DirPath.pop();
+                    loadPath();
+                }
+            });
+            $('#mkdir').on('click', function () {
+                let html = [];
+                html.push('<div class="item">');
+                html.push(icon('dir'));
+                html.push('<input class="new-dir">');
+                html.push('</div>');
+                $tree.append(html);
+                $tree.find('.new-dir').focus().one('blur', function () {
+                    if(this.value) {
+                        $.post('/platform/mkdir', {name: this.value, path: DirPath.join('/')}).then(res => {
+                            loadPath();
+                        });
+                    } else {
+                        $(this).up('.item').remove();
+                    }
+                });
+            });
+            $('#upload').on('click', function () {
+                let input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('name', 'file');
+                input.click();
+                input.onchange = function () {
+                    let file = input.files[0];
+                    let formData = new FormData();
+                    formData.append('file', file);
+                    $.upload('/platform/upload/' + DirPath.join('/'), formData, ).then(res => {
+                        loadPath();
+                    });
+                }
+            });
+            $tree.on('click', '.item', function () {
+                let $t = $(this);
+                let isDir = $t.attr('data-dir') === 'true';
+                let base = $t.attr('data-base');
+                if (isDir) {
+                    DirPath.push(base);
+                    loadPath();
+                } else {
+                    let path = $t.attr('data-path');
+                    let url = $t.attr('data-url');
+                    let size = $t.attr('data-size');
+                    let name = $t.attr('data-name');
+                    let ext = $t.attr('data-ext');
+                    preview({
+                        isDir, base, path, url, size, name, ext
+                    });
+                }
+            });
+        }
+
+        function icon(type) {
+            type = type || 'file';
+            const path = {
+                'dir': '<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>',
+                'img': '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>' +
+                    '<circle cx="8.5" cy="8.5" r="1.5"></circle>' +
+                    '<polyline points="21 15 16 10 5 21"></polyline>',
+                'file': '<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>'
+            };
+            return [
+                '<span class="icon">',
+                '<svg xmlns="http://www.w3.org/2000/svg" ' +
+                'width="1em" ' +
+                'height="1em" ' +
+                'viewBox="0 0 24 24" ' +
+                'fill="none" ' +
+                'stroke="currentColor" ' +
+                'stroke-width="2" ' +
+                'stroke-linecap="round" ' +
+                'stroke-linejoin="round">',
+                path[type],
+                '</svg>',
+                '</span>'
+            ].join('')
+        }
+
+        function isImg(ext) {
+            return [
+                '.jpg',
+                '.jpeg',
+                '.png',
+                '.gif',
+            ].indexOf(ext) >= 0;
+        }
+
+        function preview(info) {
+            let html = [];
+            html.push('<div class="resource-preview">');
+            html.push(isImg(info['ext']) ? '<img src="' + info['url'] + '" alt="">' : icon(info['isDir'] ? 'dir' : 'file'));
+            html.push('</div>');
+            html.push('<div class="resource-detail">');
+            html.push('<p>path: ' + info['path'] + '</p>');
+            html.push('<p>name: ' + info['name'] + '</p>');
+            html.push('<p>ext: ' + info['ext'] + '</p>');
+            html.push('<p>size: ' + info['size'] + '</p>');
+            html.push('<p><a href="' + info['url'] + '" target="_blank">url: ' + info['url'] + '</a></p>');
+            html.push('</div>');
+            $info.html(html);
+        }
+
+        function loadPath() {
+            $.get('/platform/list/' + DirPath.join('/')).then((res) => {
+                let dirInfo = res.data['info'];
+                let dirList = res.data['list'];
+                let treeHtml = [];
+                preview(dirInfo);
+                for (let i = 0; i < dirList.length; i++) {
+                    let type = dirList[i]['isDir'] ? 'dir' : isImg(dirList[i]['ext']) ? 'img' : 'file';
+                    let info = [];
+                    info.push('data-dir="' + dirList[i]['isDir'] + '"');
+                    info.push('data-path="' + dirList[i]['path'] + '"');
+                    info.push('data-url="' + dirList[i]['url'] + '"');
+                    info.push('data-size="' + dirList[i]['size'] + '"');
+                    info.push('data-name="' + dirList[i]['name'] + '"');
+                    info.push('data-base="' + dirList[i]['base'] + '"');
+                    info.push('data-ext="' + dirList[i]['ext'] + '"');
+                    treeHtml.push('<div class="item" ' + info.join(' ') + '>');
+                    treeHtml.push(icon(type));
+                    treeHtml.push('<span class="name">' + dirList[i]['base'] + '</span>');
+                    treeHtml.push('</div>');
+                }
+                $tree.html(treeHtml);
+            })
+        }
+
+        function init() {
+            loadPath();
+            eventHandler();
+        }
+
+        setTimeout(init);
     }());
 </script>
 @show

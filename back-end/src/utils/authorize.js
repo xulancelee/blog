@@ -26,7 +26,7 @@ const authMap = {
         },
         platform: {
             _: 'page',
-            image: 'page',
+            resource: 'page',
             list: 'api'
         }
     }

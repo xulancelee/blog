@@ -24,33 +24,54 @@ function saveDir(type) {
 
 function listSource(dir) {
     try {
+        dir = dir || '';
         let dirPath = path.join(resourceDir, dir);
         let dirState = fs.statSync(dirPath);
+        let dirPathInfo = path.parse(dirPath);
+        let list = [];
+
+        let info = {
+            isDir: dirState.isDirectory(),
+            path: dir.replace(/\\/g, '/'),
+            url: dirPath.replace(/\\/g, '/'),
+            size: dirState.size,
+            name: dirPathInfo.name,
+            base: dirPathInfo.base,
+            ext: dirPathInfo.ext
+        };
+
         if (dirState.isDirectory()) {
-            let fileArr = [];
             fs.readdirSync(dirPath).map((value => {
                 let sourcePath = path.join(dirPath, value);
                 let stat = fs.statSync(sourcePath);
-                fileArr.push({
+                let pathInfo = path.parse(sourcePath);
+                list.push({
                     isDir: stat.isDirectory(),
                     path: path.join(dir, value).replace(/\\/g, '/'),
                     url: path.join(resourceUrl, dir, value).replace(/\\/g, '/'),
-                    size: stat.size
+                    size: stat.size,
+                    name: pathInfo.name,
+                    base: pathInfo.base,
+                    ext: pathInfo.ext
                 });
             }));
-            return fileArr;
         }
-
-        return [{
-            isDir: dirState.isDirectory(),
-            path: dir,
-            url: path.join(resourceUrl, dir).replace(/\\/g, '/'),
-            size: dirState.size
-        }];
+        return {info, list};
     } catch (e) {
         console.log(e);
     }
-    return [];
+    return {info: {}, list: []};
+}
+
+function mkdir(dir) {
+    let dirPath = path.join(resourceDir, dir);
+    try {
+        fs.mkdirSync(dirPath);
+        return true;
+    } catch (e) {
+        console.log(e);
+    }
+    return false;
 }
 
 function multiParse(request, save, rename, field) {
@@ -65,6 +86,7 @@ function multiParse(request, save, rename, field) {
             let ext = fileParse.ext || '.md';
             let savePath = path.join(saveDir, fileName);
             let info = {
+                field,
                 fileName,
                 savePath,
                 ext,
@@ -117,5 +139,6 @@ export default {
     listSource,
     multiParse,
     saveDir,
+    mkdir,
     publish
 }
