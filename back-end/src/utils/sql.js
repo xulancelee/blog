@@ -2,7 +2,8 @@ import mysql from 'mysql2';
 import security from "./security.js";
 import config from '../app.config.js';
 
-const sqlConf = decryptSqlConf(config.database);
+const DEBUG = config.DEBUG;
+const sqlConf = decryptSqlConf(DEBUG ? config.databaseDev : config.database);
 const pool = mysql.createPool(sqlConf);
 
 function dataFilter(res) {
