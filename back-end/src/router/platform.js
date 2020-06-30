@@ -44,7 +44,7 @@ router.post('/upload*', async ctx => {
 
 router.post('/publish', async ctx => {
     ctx.type = 'application/json';
-    let save = '/journal';
+    let save = '../article';
     let form = await controller.multiParse(ctx.req, save, true, 'link');
     let file = form.files[0];
     if (!file.success) return ctx.body = 'File save fail!';
