@@ -7,8 +7,7 @@ import authorize from './utils/authorize.js';
 import config from './app.config.js';
 
 import home from './router/home.js';
-import journal from './router/journal.js';
-import photo from './router/photo.js';
+import article from './router/article.js';
 import platform from './router/platform.js';
 
 const app = new Koa();
@@ -39,10 +38,8 @@ app.on('error', async (err, ctx) => {
 
 app.use(home.routes());
 app.use(home.allowedMethods());
-app.use(journal.routes());
-app.use(journal.allowedMethods());
-app.use(photo.routes());
-app.use(photo.allowedMethods());
+app.use(article.routes());
+app.use(article.allowedMethods());
 app.use(platform.routes());
 app.use(platform.allowedMethods());
 

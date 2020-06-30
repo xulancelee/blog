@@ -1,0 +1,22 @@
+@extend(layout)
+
+@section(meta)
+<meta name="description" content="{{props.description}}"/>
+@show
+
+@section(style)
+<link rel="stylesheet" href="/style/markdown.css">
+<link rel="stylesheet" href="/style/gist.css">
+<link rel="stylesheet" href="/style/article.css">
+@show
+
+@section(content)
+<div class="article-head">
+    <h1>{{props.info.title}}</h1>
+    <div>{{props.info["create_date"]}}</div>
+</div>
+<div class="article-wrap">
+    {{props.content}}
+</div>
+@show
+

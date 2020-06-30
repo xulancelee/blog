@@ -41,7 +41,6 @@ function runProc(proc, params) {
             if (err) reject(err);
             else {
                 let sql = 'call ' + proc + '(' + params.join(',') + ')';
-                console.log(sql);
                 connection.query(sql, (err, result, fields) => {
 
                     if (err) {

@@ -1,7 +1,8 @@
 import path from 'path';
 import fs from 'fs';
+import config from "../app.config.js"
 
-const DEBUG = true;
+const DEBUG = config.DEBUG;
 
 const bladePath = path.resolve('./src/view');
 const reExt = /^[\s]*?@extend/;
@@ -83,6 +84,11 @@ function parser(blade, inner, section) {
                 case 'endfor':
                     fn.push('}\n');
                     break;
+                case 'define':
+                    cursor = match.index + match[0].length;
+                    match = reCondition.exec(blade);
+                    fn.push(blade.slice(cursor, match.index).replace(/@n/g, '\n').replace(/@p/g, "\'"));
+                    break;
             }
         }
 
@@ -94,7 +100,7 @@ function parser(blade, inner, section) {
             fn.push("temp.push('" + snippet + "');\n");
         }
 
-        const reCondition = /@(section|import|if|elseif|else|endif|for|endfor)(\([^)]*\))?/g;
+        const reCondition = /@(section|import|if|elseif|else|endif|for|endfor|defined|define)(\([^)]*\))?/g;
         const reVariable = /{{([^}]+)}}/g;
 
         let match = reCondition.exec(blade);
@@ -127,6 +133,8 @@ function compile(page, scope, props) {
     try {
         if (DEBUG || !__translate_cache[page]) {
             let fnParser = parser(getBlade(page));
+
+            // return fnParser.join('').replace(/@n/g, '\\n').replace(/@p/g, "\\'");
             __translate_cache[page] = translate(fnParser);
         }
         return __translate_cache[page].call(scope, props);

@@ -24,22 +24,17 @@
     <div class="form-control">
         <div class="form-label">类型</div>
         <select class="form-item" title="" name="type">
-            <option value="blog">博客</option>
-            <option value="journal">日志</option>
-            <option value="photo">摄影</option>
+            @for(let i = 0; i < props.type.length; i++)
+            <option value="{{props.type[i].key}}">{{props.type[i].name}}</option>
+            @endfor
         </select>
     </div>
     <div class="form-control">
         <div class="form-label">标签</div>
         <select class="form-item" title="" name="tag">
-            <option value="Javascript">Javascript</option>
-            <option value="Vue">Vue</option>
-            <option value="React">React</option>
-            <option value="NodeJs">NodeJs</option>
-            <option value="前端">前端</option>
-            <option value="全栈">全栈</option>
-            <option value="日志">日志</option>
-            <option value="摄影">摄影</option>
+            @for(let i = 0; i < props.tag.length; i++)
+            <option value="{{props.tag[i].key}}">{{props.tag[i].name}}</option>
+            @endfor
         </select>
     </div>
     <div class="form-control">

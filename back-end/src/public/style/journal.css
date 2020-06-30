@@ -41,13 +41,30 @@
 }
 .journal-list .image {
     width: 36%;
-    max-height: calc(24vh);
     margin-right: 1em;
     text-align: center;
     overflow: hidden;
 }
-.journal-list .image img {
+.journal-list .image > a {
+    display: block;
     width: 100%;
+    height: 0;
+    padding-bottom: 56%;
+    position: relative;
+    overflow: hidden;
+}
+.journal-list .image img {
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    height: auto;
+    position: absolute;
+    left: 0;
+    vertical-align: middle;
+    transition: transform .3s linear;
+}
+.journal-list .image:hover img{
+    transform: scale(1.1, 1.1);
 }
 .journal-list .description {
     width: 64%;
@@ -65,5 +82,21 @@
 
     .journal-list .preview:before {
         display: none;
+    }
+
+    .journal-list .intro {
+        flex-direction: column;
+    }
+
+    .journal-list .image {
+        width: 100%;
+    }
+
+    .journal-list .image > a {
+        padding-bottom: 48%;
+    }
+
+    .journal-list .description {
+        width: 100%;
     }
 }

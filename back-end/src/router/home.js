@@ -1,20 +1,15 @@
 import koa_router from 'koa-router';
 import security from "../utils/security.js";
-import marked from 'marked';
-import highlight from 'highlight.js';
+import controller from "../controller/homeController.js";
 import {render} from '../utils/view-engine.js';
 
 const router = koa_router();
 
-marked.setOptions({
-    highlight: function (code) {
-        return highlight.highlightAuto(code).value;
-    }
-});
-
 router.get('/', async (ctx) => {
     let scope = ctx.scope || {};
-    let props = {};
+    let props = {
+        article: await controller.listRecent()
+    };
     scope['title'] = '飞夕言';
     ctx.type = 'text/html';
     ctx.body = await render('page.home', scope, props);

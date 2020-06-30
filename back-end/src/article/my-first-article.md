@@ -1,4 +1,7 @@
-# blog
+[title]: <> (123)
+[description]: <> (123)
+
+## blog
 xulance personal web blog site.
 
 ### File Tree
@@ -8,7 +11,7 @@ xulance personal web blog site.
 ##### Front End
 -- package.json
 
-```js
+```javascript
 function a(blade) {
     console.log(111);
     blade = blade.trim();
@@ -21,6 +24,10 @@ function a(blade) {
         return fn;
 }
 ```
+![Alt 测试](/resource/202006/b0b1b014a4983b04aac24c2ad2fe2b08.jpg "optional title")
+
 
 
 wdnmd
+
+

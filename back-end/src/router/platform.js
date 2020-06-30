@@ -1,6 +1,7 @@
 import koa_router from 'koa-router';
 import {render} from "../utils/view-engine.js";
 import controller from "../controller/platformController.js";
+import config from "../app.config.js";
 
 const router = koa_router();
 
@@ -8,7 +9,10 @@ router.prefix('/platform');
 
 router.get('/', async ctx => {
     let scope = ctx.scope || {};
-    let props = {};
+    let props = {
+        type: config.articleType,
+        tag: config.articleTag
+    };
     scope['title'] = '发布新文章 - 飞夕言';
     ctx.type = 'text/html';
     ctx.body = await render('platform.publish', scope, props);
