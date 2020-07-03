@@ -330,6 +330,7 @@ button.success {
     color: inherit;
     transition: width .22s linear;
     border-bottom: 1px solid #aaa;
+    border-radius: 0;
     background: var(--head-background);
     caret-color: #999;
 }

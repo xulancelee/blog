@@ -48,18 +48,21 @@ router.post('/publish', async ctx => {
     let form = await controller.multiParse(ctx.req, save, true, 'link');
     let file = form.files[0];
     if (!file.success) return ctx.body = 'File save fail!';
-    let result = await controller.publish([
-        form['link'],
-        form['title'],
-        form['description'],
-        form['image'],
-        file['ext'],
-        form['type'],
-        form['tag'],
-        form['private'] * 1
-    ]);
-    if (result) return ctx.body = form;
-    return ctx.body = "Insert article fail!";
+    else {
+        let result = await controller.publish([
+            form['link'],
+            form['title'],
+            form['description'],
+            form['image'],
+            file['ext'],
+            form['type'],
+            form['tag'],
+            form['private'] * 1
+        ]);
+        console.log(result);
+        if (result) return ctx.body = form;
+        else return ctx.body = "Insert article fail!";
+    }
 });
 
 export default router;
