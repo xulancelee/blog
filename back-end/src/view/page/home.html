@@ -30,7 +30,7 @@ function formatDate(dateStr) {
                 <h3><a href="/article/{{item.link}}">{{item.title}}</a></h3>
                 <div class="intro">
                     <div class="image">
-                        <a href="/article/{{item.link}}" data-img="{{item.image}}"></a>
+                        <a href="/article/{{item.link}}" data-img="{{item.image}}" data-alt="{{item.title}}"></a>
                     </div>
                     <p class="description">{{item.description}}</p>
                 </div>
@@ -44,7 +44,26 @@ function formatDate(dateStr) {
 @section(script)
 <script>
     (function () {
+        let timer = null;
+        function showImage() {
+            if(timer) return;
+            timer = setTimeout(function () {
+                clearTimeout(timer);
+                timer = null;
+            }, 400);
 
+            document.querySelectorAll('[data-img]').forEach(node => {
+                let rect = node.getBoundingClientRect();
+                if(rect.top > -100) {
+                    let url = node.getAttribute('data-img');
+                    let alt = node.getAttribute('data-alt');
+                    node.innerHTML = '<img src="'+ url +'" alt="'+ alt +'">';
+                }
+            });
+        }
+
+        showImage();
+        window.onscroll = showImage;
     }());
 </script>
 @show
