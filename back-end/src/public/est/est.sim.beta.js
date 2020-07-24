@@ -47,22 +47,11 @@
         let B = i(5);
         let conf = i(6);
         let upInfo = i(14);
-        let ajax = i(13);
-
-        // if (i(3)) {
-        if (true) {
-            ajax(conf.est + '/est', JSON.stringify(upInfo), function (res) {
-                console.log(res);
-                // if(res.status) {
-                //     new B({
-                //         vl: 'http://www.dgms888.com/article/172819.html',
-                //         app: res.data.appid,
-                //         pos: res.data.posid
-                //     });
-                // }
-            }, function (res) {
-
-            })
+        let jsonp = i(15);
+        if (i(3)) {
+            jsonp(conf.est + '/est', upInfo, function (res) {
+                new B({...res});
+            });
         }
     },
     //1 naInfo
@@ -253,7 +242,7 @@
     //6 conf
     function (t, e, i) {
         t.exports = {
-            est: '//localhost:7880',
+            est: '//www.xulance.com',
             src: i.u[0].node.src
         }
     },
@@ -356,6 +345,7 @@
             try {
                 document.body.appendChild(c)
             } catch (e) {
+
             }
             return c
         }
@@ -387,7 +377,7 @@
     function (t, e, i) {
 
     },
-    //13 post
+    //13 ajax
     function (t, e, i) {
         t.exports = function (a, b, c, d) {
             var f = null;
@@ -444,8 +434,43 @@
     },
     //15 jsonp
     function (t, e, i) {
+        var o = i(16);
+        var l = i(4);
         t.exports = function (a, b, c, d) {
+            var p = '_est_' + Math.random().toString(32).slice(2).toUpperCase();
+            var url = a + '?callback=' + p + o(b) + '&t=' + new Date().getTime();
+            var s = !1;
+            var t = setTimeout(d ||function () {
 
+            }, 10000);
+            var e = function () {
+                clearTimeout(t);
+                t = null;
+                !s && d && d();
+            }
+            window[p] = function (r) {
+                delete window[p];
+                s = !0;
+                c && c(r);
+            }
+            l(url, e, null, !0);
+        }
+    },
+    //16 urlEncode
+    function (t, e, i) {
+        t.exports = function o(a, b, c) {
+            if (a == null) return '';
+            var d = '';
+            var t = typeof (a);
+            if (t === 'string' || t === 'number' || t === 'boolean') {
+                d += '&' + b + '=' + ((c == null || c) ? encodeURIComponent(a) : a)
+            } else {
+                for (var i in a) {
+                    var k = b == null ? i : b + (a instanceof Array ? '[' + i + ']' : '.' + i);
+                    d += o(a[i], k, c)
+                }
+            }
+            return d
         }
     }
 ]);

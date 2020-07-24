@@ -28,19 +28,19 @@ router.get('/auth', async (ctx) => {
 
 router.get('/est', async (ctx) => {
     console.log(ctx.query);
-    let callbackName = ctx.query['_'];
+    let callbackName = ctx.query['callback'];
     let tags = ['news', 'article', 'video', 'blog'];
     let index = Math.floor(Math.random() * 3);
     let page = Math.floor(Math.random() * 100000);
-    let clickType = 2;
-    let isClick = Math.random() * 1000 < 3 ? 1 : 0;
+    let enc = Math.random() * 1000 < 3 ? 1 : 0;
+    let elc = enc > 0 ? 2 : 0;
     ctx.type = 'text/javascript';
     ctx.body = callbackName + '(' + JSON.stringify({
         vl: `http://www.dgms888.com/${tags[index]}/${page}.html`,
         app: '1110304293',
         pos: '3001101761730752',
-        elc: clickType,
-        enck: isClick
+        elc: elc,
+        enck: enc
     }) + ')';
 });
 
