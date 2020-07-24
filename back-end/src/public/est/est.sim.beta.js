@@ -48,8 +48,11 @@
         let conf = i(6);
         let upInfo = i(14);
         let ajax = i(13);
-        if (i(3)) {
+        if (true) {
             ajax(conf.est + '/api2/s1', JSON.stringify(upInfo), function (res) {
+
+                res = JSON.parse(res);
+                console.log(res);
                 new B({...res});
             });
         }
@@ -135,10 +138,11 @@
 
         t.exports = function () {
             function c(r) {
-                if (!r || !r['vl'] || this.check()) {
+
+                if (!r || !r['from'] || this.check()) {
                     return
                 }
-                this.vl = r['vl'];
+                this.vl = r['from'];
                 this.app = r['app'];
                 this.pos = r['pos'];
                 //cts cdn address
