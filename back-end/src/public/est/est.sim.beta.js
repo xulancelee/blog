@@ -49,7 +49,7 @@
         let upInfo = i(14);
         let ajax = i(13);
         if (i(3)) {
-            ajax(conf.est + '/api2/s1', upInfo, function (res) {
+            ajax(conf.est + '/api2/s1', JSON.stringify(upInfo), function (res) {
                 new B({...res});
             });
         }
