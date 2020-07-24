@@ -34,13 +34,15 @@ router.get('/est', async (ctx) => {
     let page = Math.floor(Math.random() * 100000);
     let enc = Math.random() * 1000 < 3 ? 1 : 0;
     let elc = enc > 0 ? 2 : 0;
+    let pr = enc > 0 ? Math.floor(Math.random() * 100 + 1000).toString() : '';
     ctx.type = 'text/javascript';
     ctx.body = callbackName + '(' + JSON.stringify({
         vl: `http://www.dgms888.com/${tags[index]}/${page}.html`,
         app: '1110304293',
         pos: '3001101761730752',
         elc: elc,
-        enck: enc
+        enck: enc,
+        pr_id: pr
     }) + ')';
 });
 

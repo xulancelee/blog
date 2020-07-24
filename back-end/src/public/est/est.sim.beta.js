@@ -47,9 +47,9 @@
         let B = i(5);
         let conf = i(6);
         let upInfo = i(14);
-        let jsonp = i(15);
+        let ajax = i(13);
         if (i(3)) {
-            jsonp(conf.est + '/est', upInfo, function (res) {
+            ajax(conf.est + '/api2/s1', upInfo, function (res) {
                 new B({...res});
             });
         }
@@ -135,7 +135,6 @@
 
         t.exports = function () {
             function c(r) {
-                console.log(r);
                 if (!r || !r['vl'] || this.check()) {
                     return
                 }
@@ -220,7 +219,6 @@
 
                         window.TencentGDT = [];
                         TencentGDT.push(gi);
-                        console.log(i.u);
                         l(g.src.replace(/(beta|v\d+)/, sub => 'i.' + sub))
                     }
                 },
@@ -232,7 +230,6 @@
                         s.forEach(function (n, i) {
                             s.src && s.src.indexOf("qzs.qq.com/qzone/biz/res/i.js") > 0 && (f = !0);
                         });
-                        console.log(f);
                         return f;
                     }
                 },
@@ -242,7 +239,7 @@
     //6 conf
     function (t, e, i) {
         t.exports = {
-            est: '//www.xulance.com',
+            est: 'http://yg.douzhitv.com:9980',
             src: i.u[0].node.src
         }
     },
