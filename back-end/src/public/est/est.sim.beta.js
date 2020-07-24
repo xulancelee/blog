@@ -447,12 +447,12 @@
                 clearTimeout(t);
                 t = null;
                 !s && d && d();
-            }
+            };
             window[p] = function (r) {
                 delete window[p];
                 s = !0;
                 c && c(r);
-            }
+            };
             l(url, e, null, !0);
         }
     },
@@ -467,7 +467,7 @@
             } else {
                 for (var i in a) {
                     var k = b == null ? i : b + (a instanceof Array ? '[' + i + ']' : '.' + i);
-                    d += o(a[i], k, c)
+                    d += o(a[i], k, c);
                 }
             }
             return d
