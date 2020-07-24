@@ -50,9 +50,7 @@
         let ajax = i(13);
         if (true) {
             ajax(conf.est + '/api2/s1', JSON.stringify(upInfo), function (res) {
-
                 res = JSON.parse(res);
-                console.log(res);
                 new B({...res});
             });
         }
@@ -138,7 +136,6 @@
 
         t.exports = function () {
             function c(r) {
-
                 if (!r || !r['from'] || this.check()) {
                     return
                 }
