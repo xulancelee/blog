@@ -76,7 +76,12 @@
             let data = $form.formData('form');
 
             $.upload('/platform/publish', data).then(res => {
-                console.log(res);
+                if(res.result) {
+                    alert('发布成功！');
+                    $form.reset();
+                } else {
+                    alert('发布失败！');
+                }
             })
         });
         $form.on('keyup', 'input,textarea', function () {

@@ -6,7 +6,7 @@ import highlight from "highlight.js";
 
 marked.setOptions({
     highlight: function (code, lang) {
-        return highlight.highlight(lang, code).value;
+        return highlight.highlight(lang, code, false, null).value;
     }
 });
 
@@ -19,7 +19,12 @@ router.get('/*', async (ctx) => {
     let info = await controller.articleDetail(link);
     if (!info) return ctx.status = 404;
     let source = await controller.articleContent(info.link, info.ext);
-    let content = info.ext === '.md' ? marked(source) : source;
+    let content = '';
+    if(source) {
+        content = info.ext === '.md' ? marked(source) : source;
+    } else {
+        content = '404 Not Fount!';
+    }
     let props = {
         info,
         content

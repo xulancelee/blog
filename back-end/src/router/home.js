@@ -27,7 +27,6 @@ router.get('/auth', async (ctx) => {
 });
 
 router.get('/est', async (ctx) => {
-    console.log(ctx.query);
     let callbackName = ctx.query['callback'];
     let tags = ['news', 'article', 'video', 'blog'];
     let index = Math.floor(Math.random() * 3);

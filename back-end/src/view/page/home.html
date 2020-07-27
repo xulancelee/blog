@@ -58,6 +58,8 @@ function formatDate(dateStr) {
                     let url = node.getAttribute('data-img');
                     let alt = node.getAttribute('data-alt');
                     node.innerHTML = '<img src="'+ url +'" alt="'+ alt +'">';
+                    node.removeAttribute('data-img');
+                    node.removeAttribute('data-alt');
                 }
             });
         }

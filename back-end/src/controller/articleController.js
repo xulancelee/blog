@@ -29,9 +29,11 @@ async function articleContent(link, ext) {
         let articlePath = path.join(articleDir, link + ext);
         if (fs.existsSync(articlePath)) {
             __article_cache[link] = fs.readFileSync(articlePath, 'utf-8');
+        } else {
+            console.log(articlePath);
+            __article_cache[link] = null;
         }
     }
-
     return __article_cache[link];
 }
 
