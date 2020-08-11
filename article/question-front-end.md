@@ -181,7 +181,14 @@
     布局和绘制
 
 3.浏览器白屏是什么导致的  
+    
+    白屏是浏览器在加载资源时，出现未加载完全部资源时，
+    选择等待全部资源加载完成之后再进行计算和渲染的等待加载过程。
+    
 4.浏览器存储Cookie、localstorage、sessionStorage的区别  
+
+    
+
 5.cookie如何进行设置的，JS能改变哪些值  
 
     后端可以通过Set-Cookie头进行设置
@@ -289,6 +296,19 @@
 const re = /(((http|ftp|https):\/\/)?)([a-zA-Z0-9.-])(:[0-9]{1,4})\/[a-zA-Z0-9&%./-~-]*/;
 ```
 5.如何通过CSS实现一个梯形，然后实现一个可以点击的圆形
+```css
+.trapezoid{
+    border-bottom: 100px solid red;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    width: 100px;
+}
+.route{
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+}
+```
 
 6.一个人总共吹了253根蜡烛，它几岁了【一岁吹一根，两岁吹两根，依次类推】
 ```js
