@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Engine</title>
+</head>
+<body>
+
+<ul>
+    @for(let i = 0; i < props.list.length; i++)
+    @if(props.list[i].show)
+    <li>{{props.list[i].content}}</li>
+    @else
+    <li>empty</li>
+    @endif
+    @endfor
+</ul>
+
+<script>
+    function parser(blade) {
+        //定义两个函数，分别处理数据驱动和条件语句驱动
+        function handleCondition(condition, statement) {
+            //对条件语句的特殊符合进行处理
+            statement = statement ? statement.replace(/&lt;|&gt;|&amp;/g, ((substring) => {
+                return ({
+                    '&lt;': '<',
+                    '&gt;': '>',
+                    '&amp;': '&'
+                })[substring];
+            })) : statement;
+
+            switch (condition) {
+                case 'if':
+                    fn.push('if ' + statement + ' {\n');
+                    break;
+                case 'elseif':
+                    fn.push('} else if ' + statement + ' {\n');
+                    break;
+                case 'else':
+                    fn.push('} else {\n');
+                    break;
+                case 'endif':
+                    fn.push('}\n');
+                    break;
+                case 'for':
+                    fn.push('for ' + statement + ' {\n');
+                    break;
+                case 'endfor':
+                    fn.push('}\n');
+                    break;
+            }
+        }
+
+        function handleVariable(snippet) {
+            //因为我们用单引号'来拼接内容，所以我们要对单引号进行特殊处理
+            snippet = snippet.trim().replace(/'/g, "\\'");
+            snippet = snippet.replace(reVariable, ((substring, statement) => {
+                return "' +" + statement + "+ '"
+            }));
+            fn.push("temp.push('" + snippet + "');\n");
+        }
+
+        const reVariable = /{{([^}]+)}}/g;
+        //这里新增一个正则，用来匹配@keyword(statement)
+        //如果不清楚Regex的建议可以先去MDN看一下文档，了解一下exec的运行
+        const reCondition = /@(if|elseif|else|endif|for|endfor)(\([^)]*\))?/g;
+        let fn = []; //用来缓存函数主体
+
+        let match, cursor = 0;
+
+        fn.push('let temp = [];\n');
+        while (match = reCondition.exec(blade)) {
+            handleVariable(blade.slice(cursor, match.index));
+            handleCondition(match[1], match[2]);
+            cursor = match.index + match[0].length;
+        }
+        handleVariable(blade.slice(cursor));
+        fn.push('return temp.join("")');
+
+        return fn.join('');
+    }
+
+    let blade =
+        `<ul>
+            @for(let i = 0; i < props.list.length; i++)
+                @if(props.list[i].show)
+                    <li>{{props.list[i].content}}</li>
+                @else
+                    <li>empty</li>
+                @endif
+            @endfor
+        </ul>`;
+
+    let template = parser(blade, {
+        list: [
+            {show: true, content: '1'},
+            {show: true, content: '2'},
+            {show: false, content: '3'},
+            {show: true, content: '4'},
+        ]
+    });
+    console.log(template); //<div>Hello Tom, I am Lance Lee</div>
+
+    let fnTemplate = new Function('props', template);
+    let scope = {};
+    let props = {
+        list: [
+            {show: true, content: '1'},
+            {show: true, content: '2'},
+            {show: false, content: '3'},
+            {show: true, content: '4'},
+        ]
+    };
+    let html = fnTemplate.call(scope, props);
+    console.log(html);//<ul><li>1</li><li>2</li><li>empty</li><li>4</li></ul>
+
+</script>
+</body>
+</html>
