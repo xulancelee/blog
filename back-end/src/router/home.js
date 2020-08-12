@@ -2,6 +2,14 @@ import koa_router from 'koa-router';
 import security from "../utils/security.js";
 import controller from "../controller/homeController.js";
 import {render} from '../utils/view-engine.js';
+import marked from "marked";
+import highlight from "highlight.js";
+
+marked.setOptions({
+    highlight: function (code, lang) {
+        return highlight.highlight(lang, code, false, null).value;
+    }
+});
 
 const router = koa_router();
 
@@ -43,6 +51,21 @@ router.get('/est', async (ctx) => {
         enck: enc,
         pr_id: pr
     }) + ')';
+});
+
+router.get('/resume', async (ctx) => {
+    let scope = ctx.scope || {};
+    let source = await controller.resumeContent();
+    let content = '404 Not Found';
+    if(source) {
+        content = marked(source);
+    }
+    let props = {
+        content
+    };
+    scope['title'] = '个人简历 - 飞夕言';
+    ctx.type = 'text/html';
+    ctx.body = await render('page.resume', scope, props);
 });
 
 router.post('/sign/in', async (ctx) => {

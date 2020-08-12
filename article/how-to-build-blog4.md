@@ -260,19 +260,59 @@ layout.html
     <title>{{this.title}}</title>
     @section(meta)
     @section(style)
-    @section(head-script)
 </head>
 <body>
 <div id="layout">
     @import(header)
-    @section()
+    @section(content)
     @import(footer)
 </div>
 @section(script)
 </body>
 </html>
 ```
-这是一个简单的Layout，我们可以通过创建header、footer，然后可以通过@import引入。
+这是一个简单的Layout，我们可以通过创建header、footer，然后可以通过@import引入。  
+header.html
+```html
+<header><h1>{{this.title}}</h1></header>
+```
+page.html
+```html
+@extend(layout)
 
+@section(style)
+<link rel="stylesheet" href="/style/platform.css">
+@show
+
+@section(content)
+<div id="main">{{this.content}}</div>
+@show
+
+@section(script)
+<script type="text/javascript">console.log('{{props.script}}');</script>
+@show
+```
+我们先来捋一下思路，先看layout.html，我们是通过@section来埋点，
+然后在page.html的时候通过把@section和@show里面的内容填充到埋点的地方，然后还能通过@import来引入外部内容，
+然后我们先人工地去捋一下我们希望得到的模版函数，和模版执行后得到的内容
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{{this.title}}</title>
+    <link rel="stylesheet" href="/style/platform.css">
+</head>
+<body>
+<div id="layout">
+    <header><h1>{{this.title}}</h1></header>
+    <div id="main">{{this.content}}</div>
+</div>
+<script type="text/javascript">
+console.log('run script');
+</script>
+</body>
+</html>
+```
 
 

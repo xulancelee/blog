@@ -16,6 +16,9 @@
     @endfor
 </ul>
 
+
+
+
 <script>
     function parser(blade) {
         //定义两个函数，分别处理数据驱动和条件语句驱动
@@ -80,6 +83,7 @@
         return fn.join('');
     }
 
+    /*
     let blade =
         `<ul>
             @for(let i = 0; i < props.list.length; i++)
@@ -113,7 +117,38 @@
     };
     let html = fnTemplate.call(scope, props);
     console.log(html);//<ul><li>1</li><li>2</li><li>empty</li><li>4</li></ul>
+    */
 
+    function fnTemp(props) {
+        let temp = [];
+        (function (page) {
+            temp.push(
+                `<!DOCTYPE html>
+                 <html lang="zh-CN">
+                 <head>
+                     <meta charset="UTF-8">
+                     <title>{{this.title}}</title>`);
+            temp.push(page['meta'] || '');
+            temp.push(page['style'] || '');
+            temp.push(`
+                 </head>
+                 <body>
+                 <div id="layout">`);
+            temp.push(`<header><h1>${this.title}</h1></header>`);
+            temp.push(page['content'] || '');
+            temp.push(`</div>`);
+            temp.push(page['script'] || '');
+            temp.push('</body></html>');
+
+        })({
+            style: '<link rel="stylesheet" href="/style/platform.css">',
+            content: `<div id="main">${this.content}</div>`,
+            script: `<script type="text/javascript">console.log('${props.script}');<\/script>`
+        });
+        return temp.join('');
+    }
+
+    fnTemp();
 </script>
 </body>
 </html>

@@ -15,6 +15,7 @@ const authMap = {
         home: 0,
         journal: 0,
         sign: 0,
+        resume: 0,
         platform: 5
     },
     type: {
