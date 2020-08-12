@@ -314,5 +314,126 @@ console.log('run script');
 </body>
 </html>
 ```
+下面是最后的函数编写的解析函数
+```javascript
+function parser(blade, inner, section) {
+    function parserExt() {
+        const reExtend = /@(extend|section|show)(\([^)]*\))?/g;
+        let matchExt = reExtend.exec(blade);
+        let cursor = matchExt.index + matchExt[0].length;
+        let current = '';
+        let section = {};
+
+        let match = reExtend.exec(blade);
+        while (match) {
+            if (match[1] === 'section') {
+                current = match[2].replace(reBrackets, '');
+            } else if (match[1]) {
+                let snippet = blade.slice(cursor, match.index);
+                section[current] = parser(snippet, true);
+            }
+            cursor = match.index + match[0].length;
+            match = reExtend.exec(blade);
+        }
+
+        let layout = parser(getBlade(matchExt[2].replace(reBrackets, '')), true, section);
+
+        fn.push(...layout);
+    }
+
+    function parserTemp() {
+        function handleCondition(condition, statement) {
+            statement = statement ? statement.replace(/&lt;|&gt;|&amp;/g, ((substring) => {
+                switch (substring) {
+                    case '&lt;':
+                        return '<';
+                    case '&gt;':
+                        return '>';
+                    case '&amp;':
+                        return '&';
+                }
+            })) : statement;
+
+            switch (condition) {
+                case 'section':
+                    let name = statement.replace(reBrackets, '');
+                    if (section[name]) fn.push(...section[name]);
+                    break;
+                case 'import':
+                    fn.push(...parser(getBlade(statement.replace(reBrackets, '')), true));
+                    break;
+                case 'if':
+                    fn.push('if ' + statement + ' {\n');
+                    break;
+                case 'elseif':
+                    fn.push('} else if ' + statement + ' {\n');
+                    break;
+                case 'else':
+                    fn.push('} else {\n');
+                    break;
+                case 'endif':
+                    fn.push('}\n');
+                    break;
+                case 'for':
+                    fn.push('for ' + statement + ' {\n');
+                    break;
+                case 'endfor':
+                    fn.push('}\n');
+                    break;
+                case 'define':
+                    cursor = match.index + match[0].length;
+                    match = reCondition.exec(blade);
+                    fn.push(blade.slice(cursor, match.index).replace(/@n/g, '\n').replace(/@p/g, "\'"));
+                    break;
+            }
+        }
+
+        function handleVariable(snippet) {
+            snippet = snippet.trim().replace(/'/g, "\\'");
+            snippet = snippet.replace(reVariable, (substring, statement) => {
+                return "' + " + statement + " + '"
+            });
+            fn.push("temp.push('" + snippet + "');\n");
+        }
+
+        const reCondition = /@(section|import|if|elseif|else|endif|for|endfor|defined|define)(\([^)]*\))?/g;
+        const reVariable = /{{([^}]+)}}/g;
+
+        let match = reCondition.exec(blade);
+        let cursor = 0;
+
+        while (match) {
+            handleVariable(blade.slice(cursor, match.index));
+            handleCondition(match[1], match[2]);
+            cursor = match.index + match[0].length;
+            match = reCondition.exec(blade);
+        }
+        handleVariable(blade.slice(cursor));
+    }
+
+    blade = blade.trim();
+    section = section || {};
+    let isExt = reExt.test(blade);
+    let fn = [];
+    !inner && fn.push('let temp = [];');
+    isExt ? parserExt() : parserTemp();
+    !inner && fn.push('return temp.join("")');
+    return fn;
+}
+```
+基本思路就是对语句进行拓展，如果你有什么想法或者有什么特殊的情况要进行处理，可以自己加处理的逻辑
+
+### 总结
+
+这就是我实现一个模版引擎的整体思路，其实我最终并不是让大家都去写一个类似Laravel的框架，
+而是大家有了这么一个思路之后，就可以进行编写自己的模版引擎，不管你喜欢什么样的语法和模版，
+都可以通过自己的代码去实现，而且可以自己优化。  
+我这个模版是还不够完善，例如我们对模版的拓展，支持更多的代码语法等。  
+然后也有大神可以通过 `AST` 来进行语法分析、完善整个编译过程，以后如果我有时间的话也会往这方向去学习，
+然后再回来完善自己的框架内容。  
+如果有什么疑问或者觉得我哪里说得不够好，都可以给我留言指出，毕竟我跟大神的距离还是很遥远的。  
+这个项目的代码我也上传到Github了，有需要的可以去下载来看整个项目完整的使用框架。
+
+
 
 
