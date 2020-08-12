@@ -281,7 +281,7 @@ page.html
 @extend(layout)
 
 @section(style)
-<link rel="stylesheet" href="/style/platform.css">
+<link rel="stylesheet" href="/style/page.css">
 @show
 
 @section(content)
@@ -301,7 +301,7 @@ page.html
 <head>
     <meta charset="UTF-8">
     <title>{{this.title}}</title>
-    <link rel="stylesheet" href="/style/platform.css">
+    <link rel="stylesheet" href="/style/page.css">
 </head>
 <body>
 <div id="layout">
@@ -433,7 +433,3 @@ function parser(blade, inner, section) {
 然后再回来完善自己的框架内容。  
 如果有什么疑问或者觉得我哪里说得不够好，都可以给我留言指出，毕竟我跟大神的距离还是很遥远的。  
 这个项目的代码我也上传到Github了，有需要的可以去下载来看整个项目完整的使用框架。
-
-
-
-
