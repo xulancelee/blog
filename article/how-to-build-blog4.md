@@ -1,6 +1,9 @@
 [title]: <> (怎么搭一个博客：编写一个自己的html渲染模版)
 [description]: <> (在完成了后台框架之后，我们就要考虑怎么展示页面，以及如何动态地去展示文章内容)
 
+![封面图](http://xulance.com/resource/202008/car-engine.jpg)
+>封面图 来自[Pexels](https://www.pexels.com/zh-cn/)
+
 # 编写一个NodeJS版的Laravel模版渲染引擎
 
 ### 需求驱动力
@@ -432,4 +435,4 @@ function parser(blade, inner, section) {
 然后也有大神可以通过 `AST` 来进行语法分析、完善整个编译过程，以后如果我有时间的话也会往这方向去学习，
 然后再回来完善自己的框架内容。  
 如果有什么疑问或者觉得我哪里说得不够好，都可以给我留言指出，毕竟我跟大神的距离还是很遥远的。  
-这个项目的代码我也上传到Github了，有需要的可以去下载来看整个项目完整的使用框架。
+这个项目的代码我也上传到[我的Github](https://github.com/xulancelee/view-engine)了，有需要的可以去下载来看整个项目完整的使用框架。
