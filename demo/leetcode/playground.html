@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>playground</title>
+</head>
+<body>
+
+
+<script>
+
+    // ~function () {
+    //     function countTime(handle, name) {
+    //         let timeStart = new Date();
+    //         handle();
+    //         let timeEnd = new Date();
+    //         console.log(`time ${name} sub: ${(timeEnd - timeStart)}`);
+    //     }
+    //
+    //     let obj = '';
+    //     let map = new Map;
+    //
+    //     let str = Math.random().toString(4);
+    //     for (let i = 0; i < 1000000; i++) obj += str.split('.')[1];
+    //
+    //
+    // }();
+
+    ~function () {
+
+        var longestPalindrome = function (s) {
+            function DecArray(x, y) {
+                let vector = [];
+                for (let i = 0; i < x; i++)
+                    vector[i] = new Array(y).fill(0);
+                return vector;
+            }
+
+            let ori = s;
+            let res = Array.prototype.slice.call(s).reverse().join('');
+            let len = s.length;
+            let vector = new DecArray(len, len);
+            let max = 0;
+            let end = 0;
+
+            for (let i = 0; i < len; i++) {
+                for (let j = 0; j < len; j++) {
+                    if (ori[i] === res[j]) {
+                        if (i === 0 || j === 0) {
+                            vector[i][j] = 1;
+                        } else {
+                            vector[i][j] = vector[i - 1][j - 1] + 1;
+                        }
+                    }
+
+                    if (vector[i][j] > max) {
+                        max = vector[i][j];
+                        end = i;
+                    }
+                }
+                console.log(vector.join('\n'));
+            }
+
+            console.log(vector);
+
+            return s.substring(end - max + 1, max);
+        };
+
+
+        let result = longestPalindrome('12313456321');
+
+    }();
+
+</script>
+</body>
+</html>

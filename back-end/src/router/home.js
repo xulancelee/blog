@@ -105,5 +105,9 @@ router.post('/sign/in', async (ctx) => {
     }
 });
 
+function fn (a, ...b) {
+
+}
+
 export default router;
 

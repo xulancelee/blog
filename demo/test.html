@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    let i = 0;
+    let inputArr = [
+        "1000 5",
+        "800 2 0",
+        "400 5 1",
+        "300 5 1",
+        "400 3 0",
+        "500 2 0"
+    ];
+    function readline() {
+        return inputArr[i++];
+    }
+
+    /**
+     let [money, num] = readline().split(' ').map(value => Number(value));
+     let map = {};
+     for (let i = 0; i < num; i++) {
+  let item = readline().split(' ').map(value => Number(value));
+  if(item[2]) {
+    map[item[2]].children.push({
+      price: item[0],
+      weight: item[1],
+      index: i
+    });
+  } else {
+    map[i].push({
+      price: item[0],
+      weight: item[1],
+      children: []
+    });
+  }
+}
+     let arr = [];
+     for (let i in map) {
+  let pow = 0;
+  let cost = 0;
+  pow += map[i].price * map[i].weight;
+  cost += map[i].children[i];
+  if(map[i].children.length) {
+    for (let i = 0; i < map[i].children.length; i++) {
+      pow += map[i].children[i].price * map[i].children[i].weight;
+      cost += map[i].children[i].price;
+    }
+  }
+  arr.push({
+    pow,
+    cost
+  });
+}
+
+     arr.sort((a, b) => b.pow - a.pow);
+     */
+
+    let str1;
+    while(str1 = readline()){
+        var arr = str1.split(' ')
+        var m = parseInt(arr[0])/10;
+        var n = parseInt(arr[1]);
+        var goods = [], count = 1;
+
+        while(count <= n){
+            var item = readline().split(' ').map(val => parseInt(val));
+            if(item[2] == 0){
+                goods[count] = [{v:item[0]/10, w:item[0]/10*item[1]}];
+            }else{
+                var add = goods[item[2]].map(val => {
+                    return{
+                        v: item[0]/10 + val.v,
+                        w: item[0]/10*item[1] + val.w
+                    }
+                });
+                goods[item[2]] = [...goods[item[2]], ...add];
+            }
+            count++;
+        }
+        console.log(choose(goods))
+    }
+    function choose(goods){
+        console.log(goods);
+        var res = Array(m+1).fill(0)
+        for(var i = 0; i < goods.length; i++){
+            for(var j = m; j>=0; j--){
+                if(goods[i]){
+                    goods[i].forEach(val => {
+                        console.log(res[j]);
+                        if(val.v <= j){
+                            res[j] = Math.max(res[j],res[j-val.v] + val.w)
+                        }
+                    })
+                }
+            }
+        }
+        return res[m]*10;
+    }
+
+
+
+
+
+    // let num = Number(readline()).toString(2);
+    // let res = 0;
+    // for (let i = 0; i < num.length; i++) {
+    //   if(num[i] === '1') res++;
+    // }
+    // console.log(res);
+
+    // for (let i = 0; i < num; i++) {
+    //   arr.push(readline());
+    // }
+
+    // arr.sort();
+
+    // for (let i = 0; i < arr.length; i++) {
+    //   console.log(arr[i])
+    // }
+
+</script>
+</body>
+</html>

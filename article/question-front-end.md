@@ -31,7 +31,7 @@
 5.数组原型上面的方法有哪些，哪些是可以改变数组的，哪些是不可以的  
 
     可:push pop shift unshift reverse splice sort
-    否:forEach fill every indexOf filter concat join slice toString
+    否:forEach fill every indexOf filter concat join slice toString map reduce 
     
 6.如何转换一个类数组对象，大致原理是怎么样的  
 
@@ -342,6 +342,7 @@ function concat(array1, array2) {
 }
 ```
 
+
 ##二面  
 >二面，一般都会考察一些项目问题，性能优化，也会对基础的原理部分进行综合考察。
 >二面面试官，往往是以后自己的leader，或者其他部门更加资深的技术。
@@ -384,6 +385,7 @@ function concat(array1, array2) {
 >二面面试过程中，会涉及到项目的问题，我这里不进行列举。
 >因为每个人的项目不太一样，参考意义不大。可以多对项目中的难点和亮点进行展开叙述
 
+
 ##三面
 >三面，一般会考察项目，个人规划，提供技术方案的能力。
 >三面的考察，开放程度更大，每个人根据自己的情况，酌情回答。
@@ -406,6 +408,7 @@ function concat(array1, array2) {
 1.算法题 - 实现一个二分查找  
 2.实现一个异步缓存请求【考察并发】  
 3.算法题 - {} [] ()三个判断是否闭合  
+
 
 ##hr面
 >hr面，一般比较轻松。主要围绕着你的基本信息、薪资情况、个人发展、性格、和他人相处、团队协作等方面展开。
