@@ -1,7 +1,7 @@
 ## 李志东 (Lance Lee)
 15622381828 | xulance@icloud.com  
 - **学历**: 本科 / 广州大学 / 软件工程  
-- **期望**: 深圳 / 前端开发工程师 / 15k ～ 20k  
+- **期望**: 东莞 / 前端开发工程师 / 12k ～ 16k  
 - **个人博客**: http://xulance.com  
 - **Github**: https://github.com/xulancelee  
 

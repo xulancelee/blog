@@ -53,9 +53,10 @@ router.get('/est', async (ctx) => {
     }) + ')';
 });
 
-router.get('/resume', async (ctx) => {
+router.get('/resume*', async (ctx) => {
+    let link = ctx.params[0];
     let scope = ctx.scope || {};
-    let source = await controller.resumeContent();
+    let source = await controller.resumeContent(link);
     let content = '404 Not Found';
     if(source) {
         content = marked(source);

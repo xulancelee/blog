@@ -13,8 +13,9 @@ async function listByTag() {
 
 }
 
-async function resumeContent() {
-    let resumePath = path.join(staticDir, 'resume.md');
+async function resumeContent(type) {
+    let file = type === '.dg' ? 'resume.dg.md' : 'resume.md';
+    let resumePath = path.join(staticDir, file);
     if(fs.existsSync(resumePath)) {
         return fs.readFileSync(resumePath, 'utf-8');
     }
