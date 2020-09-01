@@ -6,7 +6,7 @@
 </head>
 <body>
 
-
+<script src="struct.js"></script>
 <script>
 
     // ~function () {
@@ -66,7 +66,40 @@
             return s.substring(end - max + 1, max);
         };
 
-        let result = longestPalindrome('123ahs1ha321');
+        /**
+         * 486
+         * @param {number[]} nums
+         * @return {boolean}
+         */
+var PredictTheWinner = function(nums) {
+    function DecArray(x, y) {
+        let vector = [];
+        for (let i = 0; i < x; i++)
+            vector[i] = new Array(y);
+        return vector;
+    }
+
+    let len = nums.length;
+    if(len === 1 || len % 2 === 0) return true;
+
+    let cache = DecArray(len, len);
+
+    function pick(i, j) {
+        if(cache[i][j]) return cache[i][j];
+        if(i === j) return cache[i][j] = nums[i];
+        cache[i][j] = Math.max(nums[j] - pick(i, j - 1), nums[i] - pick(i + 1, j));
+        return cache[i][j];
+    }
+
+    let half = (len - 1) / 2;
+    for (let i = 0; i <= half; i++) {
+        pick(half - i, half + i);
+    }
+
+    return cache[0][len - 1] >= 0;
+};
+
+        let result = PredictTheWinner([1, 5, 233, 7, 3]);
 
         console.log(result);
 
