@@ -5,17 +5,18 @@
  */
 var binaryTreePaths = function(root) {
     if(!root || !root.val) return [];
-    function dfs(node, tree) {
-        tree.push(node.val);
-        if(node.left) dfs(node.left, tree);
-        if(node.right) dfs(node.right, tree);
-        if(!node.left && !node.right) cache.push(tree.join('->'));
-        return tree.pop();
+    function dfs(node) {
+        cache.push(node.val);
+        if(node.left) dfs(node.left);
+        if(node.right) dfs(node.right);
+        if(!node.left && !node.right) result.push(cache.join('->'));
+        return cache.pop();
     }
 
     let cache = [];
+    let result = [];
 
-    dfs(root, []);
+    dfs(root);
 
-    return cache;
+    return result;
 };

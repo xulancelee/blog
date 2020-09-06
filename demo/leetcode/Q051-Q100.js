@@ -46,3 +46,39 @@ var solveNQueens = function(n) {
 
     return result;
 };
+
+/**
+ * 60
+ * @param {number} n
+ * @param {number} k
+ * @return {string}
+ */
+var getPermutation = function (n, k) {
+    function order(k) {
+        if (k === 1) return true;
+        let i = 1;
+        let ni = 1;
+        while (ni < k) {
+            i++;
+            ni = ni * i;
+        }
+        site[i - 1]++;
+        order(k - (ni / i));
+    }
+
+    let site = new Array(n).fill(0);
+    let cache = [];
+    for (let i = 1; i <= n; i++) {
+        cache.push(i);
+    }
+    order(k); //做一次排序，选出要插队的数字
+    site.reverse(); //反序，后面的先排
+    for (let i = 0; i < n; i++) {
+        if(site[i] > 0) {
+            let sw = cache.splice(i + site[i], 1);
+            cache.splice(i, 0, sw);
+        }
+    }
+
+    return cache.join('');
+};
