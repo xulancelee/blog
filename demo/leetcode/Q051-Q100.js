@@ -82,3 +82,32 @@ var getPermutation = function (n, k) {
 
     return cache.join('');
 };
+
+/**
+ * 77 组合
+ * @param {number} n
+ * @param {number} k
+ * @return {number[][]}
+ */
+var combine = function(n, k) {
+    //回溯 动态分配
+    if(!n || !k) return [];
+    function dp(min, max, num) {
+        let remain = max - num + 1;
+        for (; min <= remain; min++) {
+            cache.push(min);
+            if(num > 1) {
+                dp(min + 1, max, num - 1);
+            } else {
+                result.push(cache.slice(0));
+            }
+            cache.pop();
+        }
+    }
+
+    let cache = [];
+    let result = [];
+    dp(1, n, k);
+    return result;
+};
+
