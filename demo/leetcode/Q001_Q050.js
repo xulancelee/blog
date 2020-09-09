@@ -110,3 +110,38 @@ var longestPalindrome = function(s) {
     console.log(str1);
     console.log(str2);
 };
+
+
+/**
+ * 39 组合总和
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum = function(candidates, target) {
+    //回溯
+    if(!candidates.length || !target) return [];
+    function dp(remain, cur) {
+        for (let i = cur; i < candidates.length; i++) {
+
+            if(candidates[i] < remain) {
+                cache.push(candidates[i]);
+                dp(remain - candidates[i], i);
+                cache.pop();
+            }
+            if(candidates[i] === remain) {
+                cache.push(candidates[i]);
+                result.push(cache.slice(0));
+                cache.pop();
+            }
+        }
+    }
+
+    let cache = [];
+    let result = [];
+
+    dp(target, 0);
+
+    return result;
+};
+

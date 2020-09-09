@@ -58,50 +58,34 @@
             return s.substring(end - max + 1, max);
         };
 
-var combine = function(n, k) {
-    if(!n || !k) return [];
-    function dp(min, max, num) {
-        let remain = max - num + 1;
-        for (; min <= remain; min++) {
-            cache.push(min);
-            if(num > 1) {
-                dp(min + 1, max, num - 1);
-            } else {
-                result.push([...cache]);
+        var combine = function(n, k) {
+            //回溯 动态分配
+            if(!n || !k) return [];
+            function dp(min, max, num) {
+                let remain = max - num + 1;
+                for (; min <= remain; min++) {
+                    cache.push(min);
+                    if(num > 1) {
+                        dp(min + 1, max, num - 1);
+                    } else {
+                        result.push(cache.slice(0));
+                    }
+                    cache.pop();
+                }
             }
-            cache.pop();
-        }
-    }
 
-    let cache = [];
-    let result = [];
-    dp(1, n, k);
-    return result;
-};
+            let cache = [];
+            let result = [];
+            dp(1, n, k);
+            return result;
+        };
 
         // 1 3 3 6 6 6 6
         // 0 1 1 2 2 2 2 3 3 3 3 3 3 3 3
 
-        let s = [
-            [1,2,3],
-            [1,2,4],
-            [1,3,4],
-            [2,3,4]
-        ];
 
-        let s2 = [
-            [1,2,3],
-            [1,2,4],
-            [1,2,5],
-            [1,3,4],
-            [1,3,5],
-            [1,4,5],
-            [2,3,4],
-            [2,3,5],
-            [2,4,5]
-        ];
 
-        let result = combine(5, 3);
+        let result = combinationSum([4,2,8], 8);
 
         console.log(result);
 
