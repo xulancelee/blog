@@ -58,14 +58,15 @@
             return s.substring(end - max + 1, max);
         };
 
-        var combine = function(n, k) {
+        var combine = function (n, k) {
             //回溯 动态分配
-            if(!n || !k) return [];
+            if (!n || !k) return [];
+
             function dp(min, max, num) {
                 let remain = max - num + 1;
                 for (; min <= remain; min++) {
                     cache.push(min);
-                    if(num > 1) {
+                    if (num > 1) {
                         dp(min + 1, max, num - 1);
                     } else {
                         result.push(cache.slice(0));
@@ -80,12 +81,56 @@
             return result;
         };
 
+        const combinationSum = (candidates, target) => {
+            const res = [];
+            const cache = [];
+            const dfs = (sum, start) => {
+                if (sum >= target) {
+                    if (sum === target) {
+                        res.push(cache.slice());
+                    }
+                    return;
+                }
+                for (let i = start; i < candidates.length; i++) {
+                    cache.push(candidates[i]);
+                    dfs(sum + candidates[i], i);
+                    cache.pop();
+                }
+            };
+            dfs(0, 0);
+            return res;
+        };
+
+const combinationSum2 = (candidates, target) => {
+    candidates.sort();
+    const res = [];
+    const cache = [];
+    const dfs = (sum, start) => {
+        if (sum >= target) {
+            if (sum === target) {
+                res.push(cache.slice());
+            }
+            return;
+        }
+        for (let i = start; i < candidates.length; i++) {
+            if (candidates[i - 1] === candidates[i] && i - 1 >= start) {
+                continue;
+            }
+            cache.push(candidates[i]);
+            dfs(sum + candidates[i], i + 1);
+            cache.pop();
+        }
+    };
+
+    dfs(0, 0);
+    return res;
+};
+
         // 1 3 3 6 6 6 6
         // 0 1 1 2 2 2 2 3 3 3 3 3 3 3 3
 
 
-
-        let result = combinationSum([4,2,8], 8);
+        let result = combinationSum2([10, 1, 2, 7, 6, 1, 5], 8);
 
         console.log(result);
 

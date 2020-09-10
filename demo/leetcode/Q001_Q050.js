@@ -118,7 +118,7 @@ var longestPalindrome = function(s) {
  * @param {number} target
  * @return {number[][]}
  */
-var combinationSum = function(candidates, target) {
+const combinationSum = function(candidates, target) {
     //回溯
     if(!candidates.length || !target) return [];
     function dp(remain, cur) {
@@ -144,4 +144,53 @@ var combinationSum = function(candidates, target) {
 
     return result;
 };
+const combinationSum_2 = (candidates, target) => {
+    const res = [];
+    const cache = [];
+    const dfs = (sum, start) => {
+        if (sum >= target) {
+            if (sum === target) {
+                res.push(cache.slice());
+            }
+            return;
+        }
+        for (let i = start; i < candidates.length; i++) {
+            cache.push(candidates[i]);
+            dfs(sum + candidates[i], i);
+            cache.pop();
+        }
+    };
+    dfs(0, 0);
+    return res;
+};
 
+/**
+ * 40 组合总和 II
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+const combinationSum2 = (candidates, target) => {
+    candidates.sort();
+    const res = [];
+    const cache = [];
+    const dfs = (sum, start) => {
+        if (sum >= target) {
+            if (sum === target) {
+                res.push(cache.slice());
+            }
+            return;
+        }
+        for (let i = start; i < candidates.length; i++) {
+            if (candidates[i - 1] === candidates[i] && i - 1 >= start) {
+                continue;
+            }
+            cache.push(candidates[i]);
+            dfs(sum + candidates[i], i + 1);
+            cache.pop();
+        }
+    };
+
+    dfs(0, 0);
+    return res;
+};
