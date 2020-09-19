@@ -113,6 +113,15 @@ var longestPalindrome = function(s) {
 
 
 /**
+ * 37
+ * @param {char[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solveSudoku = function(board) {
+    console.log(board);
+};
+
+/**
  * 39 组合总和
  * @param {number[]} candidates
  * @param {number} target
