@@ -375,6 +375,14 @@ button.success {
     padding: 10px 0;
     text-align: center;
 }
+.footer-jetbrains{
+    padding: 10px 0;
+    text-align: center;
+}
+.footer-jetbrains img{
+    width: 30px;
+    height: 30px;
+}
 
 /*container*/
 .container {
