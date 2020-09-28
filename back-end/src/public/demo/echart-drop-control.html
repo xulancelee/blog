@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>echart-drop-control</title>
+  <style>
+    #chart {
+      width: 100%;
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <div id="chart"></div>
+</div>
+
+<script src="/script/echarts.min.js"></script>
+<script>
+
+  ~function () {
+    const fix = (num) => num < 10 ? '0' + num : '' + num;
+
+    function formatDate(date, format) {
+      date = date instanceof String ? date.replace(/-/g, '/') : date;
+      date = date ? date instanceof Date ? date : new Date(date) : new Date();
+      format = format ? format : 'yyyy/MM/dd';
+      let y = date.getFullYear().toString();
+      let M = date.getMonth() + 1;
+      let d = date.getDate();
+      let H = date.getHours();
+      let m = date.getMinutes();
+      let s = date.getSeconds();
+      return format.replace('yyyy', y).replace('MM', fix(M)).replace('dd', fix(d))
+          .replace('HH', fix(H)).replace('mm', fix(m)).replace('ss', fix(s));
+    }
+
+    function staticControlOption() {
+      let start = new Date();
+      start.setHours(0);
+      start.setMinutes(0);
+      start.setSeconds(0);
+      start = start.getTime();
+      let x = [];
+      for (let h = 0; h < 24; h++) {
+        for (let mi = 0; mi < 60; mi++) {
+          x.push(formatDate(start + h * 3600000 + mi * 60000, 'HH:mm'));
+        }
+      }
+      return {
+        title: {textStyle: {color: "#898989", fontSize: 12, fontWeight: "normal"}, left: 'left'},
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {type: 'cross', crossStyle: {color: '#999'}}
+        },
+        grid: {left: 45, right: 35, bottom: 30, top: 10, containLabel: false},
+        color: ["rgba(24,128,247,.8)", "rgba(232,147,5,.8)", "rgba(232,91,20,.8)", "rgba(195,38,33,.8)", "rgba(31,226,225,.8)"],
+        textStyle: {color: "rgba(0,0,0,.6)"},
+        yAxis: [
+          {
+            type: 'value', min: 0, max: 1000, name: '', splitLine: {show: false}, axisLabel: {
+              formatter: function (value) {
+                let unit = ['', 'K', 'M', 'B'];
+                let unitIn = 0;
+                while (value > 1000) {
+                  value = value / 1000;
+                  unitIn++;
+                }
+                return value + unit[unitIn];
+              }
+            }
+          }
+        ],
+        xAxis: [{
+          type: "category",
+          data: x,
+          splitLine: {show: false},
+          boundaryGap: false
+        }],
+        series: [
+          {
+            name: name,
+            type: 'line',
+            symbolSize: 1,
+            hoverAnimation: false,
+            data: data
+          }
+        ]
+      };
+    }
+
+    function staticGraphicItem(time) {
+      return {
+        id: 'circle_' + time[0] + '_' + time[1],
+        type: 'circle',
+        position: chart.convertToPixel('grid', [time[0] * 60 + time[1], 0]),
+        shape: {
+          cx: 0,
+          cy: 0,
+          r: 5
+        },
+        style: {
+          fill: '#fff',
+          stroke: 'rgba(24,128,247,.8)',
+          lineWidth: 1
+        },
+        cursor: 'default',
+        invisible: true,
+        draggable: false,
+        ondrag: echarts.util.curry(eventPointDrag, time),
+        onmousedown: echarts.util.curry(eventPointDown, time),
+        onmouseup: echarts.util.curry(eventPointUp, time),
+        z: 100
+      }
+    }
+
+    function getEffectConstant(distance, effect) {
+      function threeBezier(t) {
+        let x1 = 1, y1 = 1;
+        let x2 = 0, y2 = 0;
+        let cx1 = 0.45, cy1 = 1;
+        let cx2 = 0.55, cy2 = 0;
+        let x =
+            x1 * (1 - t) * (1 - t) * (1 - t) +
+            3 * cx1 * t * (1 - t) * (1 - t) +
+            3 * cx2 * t * t * (1 - t) +
+            x2 * t * t * t;
+        let y =
+            y1 * (1 - t) * (1 - t) * (1 - t) +
+            3 * cy1 * t * (1 - t) * (1 - t) +
+            3 * cy2 * t * t * (1 - t) +
+            y2 * t * t * t;
+        return [x, y];
+      }
+
+      return threeBezier(distance / effect)[1];
+    }
+
+    function fixControlPoint(dp, up, data) {
+      let graphic = [];
+      for (let h = 0; h < 24; h++) {
+        let iv0 = h * 60 < dp || h * 60 > up;
+        let iv1 = h * 60 + 30 < dp || h * 60 + 30 > up;
+        graphic.push({
+          id: 'circle_' + h + '_' + 0,
+          position: chart.convertToPixel('grid', data[h * 60]),
+          cursor: iv0 ? 'default' : 'move',
+          draggable: !iv0,
+          invisible: iv0,
+          style: {
+            stroke: "rgba(24,128,247,.8)"
+          }
+        });
+        graphic.push({
+          id: 'circle_' + h + '_' + 30,
+          position: chart.convertToPixel('grid', data[h * 60 + 30]),
+          cursor: iv1 ? 'default' : 'move',
+          draggable: !iv1,
+          invisible: iv1,
+          style: {
+            stroke: "rgba(24,128,247,.8)"
+          }
+        });
+      }
+      graphic.push({
+        id: 'circle_23_59',
+        position: chart.convertToPixel('grid', data[1439]),
+        cursor: 1439 < dp || 1439 > up ? 'default' : 'move',
+        draggable: !(1439 < dp || 1439 > up),
+        invisible: 1439 < dp || 1439 > up,
+        style: {
+          stroke: "rgba(24,128,247,.8)"
+        }
+      });
+
+      return graphic;
+    }
+
+    function eventChart() {
+      function fixGraphic() {
+        let graphic = [];
+        let dp = chart.convertFromPixel('grid', pointDown)[0];
+        let up = chart.convertFromPixel('grid', pointUp)[0];
+        if (dp > up) {
+          let mid = dp;
+          dp = up;
+          up = mid;
+        }
+        dp = dp <= 0 ? 0 : dp;
+        up = up > 1440 ? 1439 : up;
+        interval = [dp, up];
+        graphic = fixControlPoint(dp, up, data);
+        graphic.push({
+          id: 'rect',
+          shape: {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0
+          },
+          invisible: true
+        });
+        chart.setOption({
+          graphic: graphic
+        });
+      }
+
+      let isDown = false;
+      let isMove = false;
+      let pointDown = [0, 0];
+      let pointUp = [0, 0];
+      chart.getZr().on('mousedown', function (params) {
+        if (params.target) return false;
+        isDown = true;
+        pointDown = [params.offsetX, params.offsetY];
+        chart.setOption({
+          graphic: [{
+            id: 'rect',
+            shape: {
+              x: params.offsetX,
+              y: params.offsetY,
+              width: 0,
+              height: 0
+            }
+          }]
+        });
+      });
+      chart.getZr().on('mousemove', function (params) {
+        if (!isDown) return;
+        isMove = true;
+        let width = params.offsetX - pointDown[0];
+        let height = params.offsetY - pointDown[1];
+        chart.setOption({
+          graphic: [{
+            id: 'rect',
+            invisible: false,
+            shape: {
+              width: width,
+              height: height
+            }
+          }]
+        });
+      });
+      chart.getZr().on('mouseup', function (params) {
+        isDown = false;
+        if (!isMove) return false;
+        isMove = false;
+        pointUp = [params.offsetX, params.offsetY];
+        fixGraphic();
+      });
+      chart.on('globalout', function (params) {
+        let isHandle = isDown || isMove;
+        isDown = false;
+        isMove = false;
+        if (!isHandle) return false;
+        let ev = params['event'] && params['event']['event'] ? params['event']['event'] : {zrX: 0, zrY: 0};
+        pointUp = [ev.zrX, ev.zrY];
+        fixGraphic();
+      });
+    }
+
+    function eventPointDrag(time) {
+      let index = time[0] * 60 + time[1];
+      let li = interval[0];
+      let ri = interval[1];
+      let leftSpace = Math.abs(index - li);
+      let rightSpace = Math.abs(index - ri);
+      let pix = chart.convertFromPixel('grid', this.position);
+      let val = Math.floor(pix[1]);
+      val = val < 0 ? 0 : val > 1000 ? 1000 : val;
+      let valSub = val - cache[index];
+
+      for (; li < index; li++) {
+        let leftDist = Math.abs(index - li);
+        let leftVal = Math.floor(cache[li] + (valSub * getEffectConstant(leftDist, leftSpace)));
+        leftVal = leftVal <= 0 ? 0 : leftVal > 1000 ? 1000 : leftVal;
+        data[li][1] = leftVal;
+      }
+
+      data[index][1] = val;
+
+      for (; ri > index; ri--) {
+        let rightDist = Math.abs(index - ri);
+        let rightVal = Math.floor(cache[ri] + (valSub * getEffectConstant(rightDist, rightSpace)));
+        rightVal = rightVal <= 0 ? 0 : rightVal > 1000 ? 1000 : rightVal;
+        data[ri][1] = rightVal;
+      }
+
+      chart.setOption({
+        series: [{
+          data: data
+        }]
+      });
+    }
+
+    function eventPointDown(time) {
+      let index = time[0] * 60 + time[1];
+      cache = {};
+      for (let i = interval[0], l = interval[1]; i <= l; i++) {
+        cache[i] = data[i][1];
+      }
+      chart.setOption({
+        graphic: fixControlPoint(index - 1, index + 1, data)
+      });
+    }
+
+    function eventPointUp() {
+      chart.setOption({
+        graphic: fixControlPoint(interval[0], interval[1], data)
+      });
+    }
+
+    function initGraphic() {
+      let graphicItem = [];
+
+      for (let h = 0; h < 24; h++) {
+        graphicItem.push(staticGraphicItem([h, 0]));
+        graphicItem.push(staticGraphicItem([h, 30]));
+      }
+
+      graphicItem.push(staticGraphicItem([23, 59]));
+      graphicItem.push({
+        id: 'rect',
+        type: 'rect',
+        position: [0, 0],
+        shape: {
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0
+        },
+        invisible: true,
+        cursor: 'default',
+        style: {
+          fill: 'rgba(24,128,247,.2)'
+        }
+      });
+      chart.setOption({
+        graphic: graphicItem
+      });
+    }
+
+    function initChart() {
+      for (let h = 0; h < 24; h++) {
+        for (let m = 0; m < 60; m++) {
+          let i = h * 60 + m;
+          data.push([i, 0]);
+        }
+      }
+      chart.setOption(staticControlOption());
+    }
+
+    const dom = document.getElementById('chart');
+    const chart = echarts.init(dom);
+    const data = [];
+    let interval = [0, 0];
+    let cache = {};
+    initChart();
+    initGraphic();
+    eventChart();
+  }();
+
+</script>
+</body>
+</html>
