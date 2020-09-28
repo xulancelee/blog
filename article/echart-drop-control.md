@@ -24,5 +24,5 @@
 整个Demo模版放在了 [GitHub](https://github.com/xulancelee/echart-drop-control) 上
 
 ## Demo
-你也可以在 [Demo](http://xulacne.com/demo/echart-drop-control.html) 预览
+你也可以在 [Demo](http://xulance.com/demo/echart-drop-control.html) 预览
 
