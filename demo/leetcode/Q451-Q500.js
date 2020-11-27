@@ -1,4 +1,24 @@
 /**
+ * 454. 四数相加 II
+ * @param {number[]} A
+ * @param {number[]} B
+ * @param {number[]} C
+ * @param {number[]} D
+ * @return {number}
+ * 当不需要用到下标的情况 for of 比 for 更快
+ * map的判断逻辑比Object更快
+ */
+var fourSumCount = function(A, B, C, D, h = new Map(), r = 0) {
+    for(var a of A)
+        for(var b of B)
+            h.set(0 - a - b, (h.get(0 - a - b) || 0) + 1)
+    for(var c of C)
+        for(var d of D)
+            h.has(c + d) && (r += h.get(c + d))
+    return r
+};
+
+/**
  * 486
  * @param {number[]} nums
  * @return {boolean}

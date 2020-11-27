@@ -16,21 +16,29 @@
       let timeEnd = new Date();
       console.log(`time ${name} sub: ${(timeEnd - timeStart)}`);
     }
+
+    function buildArray(len) {
+      let result = []
+      for (let i = 0; i < len; i++) {
+        result.push(Math.floor(Math.random() * 100))
+      }
+      return result
+    }
+
+
   }();
 
   ~function () {
 
-    const maximumGap = function (nums) {
-      if (nums.length < 2) return 0
-      nums.sort((a, b) => a - b)
-      let max = 0
-      for (let i = 0, l = nums.length - 1; i < l; i++) {
-        if (nums[i + 1] - nums[i] > max) max = nums[i + 1] - nums[i]
-      }
-      return max
+    const MAX = Math.pow(2, 31)
+    var myAtoi = function(s) {
+      let result = parseInt(s)
+      if (isNaN(result)) return 0
+      result = result > MAX - 1 ? MAX - 1 : result < -MAX ? -MAX : result
+      return result
     };
 
-    let result = maximumGap([1,3,100]);
+    let result = myAtoi(' -');
 
     console.log(result);
 

@@ -111,6 +111,56 @@ var longestPalindrome = function(s) {
     console.log(str2);
 };
 
+/**
+ * 6. Z 字形变换
+ * @param {string} s
+ * @param {number} numRows
+ * @return {string}
+ */
+var convert = function(s, numRows) {
+    if (numRows < 2) return s
+    let result = []
+    let dr = DecArray(numRows, 0)
+    let base = (numRows - 1) * 2
+
+    for (let i = 0; i < s.length; i++) {
+        let iBase = i % base
+        let row = iBase >= numRows ? 2 * numRows - iBase - 2 : iBase
+        dr[row].push(s[i])
+    }
+
+    for (let i = 0; i < dr.length; i++) {
+        result = result.concat(dr[i])
+    }
+    return result.join('')
+};
+
+/**
+ * 7. 整数反转
+ * @param {number} x
+ * @return {number}
+ */
+var reverse = function(x) {
+    let sign = ''
+    if (x < 0) {
+        sign += '-'
+        x = -x
+    }
+    let result = Number(sign + x.toString().split('').reverse().join(''))
+    return (result | 0) === result ? result : 0;
+};
+
+/**
+ * 8. 字符串转换整数 (atoi)
+ * @param {string} s
+ * @return {number}
+ */
+var myAtoi = function(s) {
+    const MAX = Math.pow(2, 31)
+    let result = parseInt(s)
+    if (isNaN(result)) return 0
+    return result > MAX - 1 ? MAX - 1 : result < -MAX ? -MAX : result
+};
 
 /**
  * 37
