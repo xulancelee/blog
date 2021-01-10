@@ -30,15 +30,9 @@
 
   ~function () {
 
-    const MAX = Math.pow(2, 31)
-    var myAtoi = function(s) {
-      let result = parseInt(s)
-      if (isNaN(result)) return 0
-      result = result > MAX - 1 ? MAX - 1 : result < -MAX ? -MAX : result
-      return result
-    };
+    const result = Promise.resolve({a: 1})
 
-    let result = myAtoi(' -');
+    result.then(data => console.log(data))
 
     console.log(result);
 
