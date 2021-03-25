@@ -140,7 +140,7 @@ function compile(page, scope, props) {
         return __translate_cache[page].call(scope, props);
     } catch (e) {
         console.log(e);
-        return "Page Engine Error!";
+        return `Page Engine Error! <br/> ${e.toString()}`;
     }
 }
 

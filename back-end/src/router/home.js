@@ -53,6 +53,23 @@ router.get('/est', async (ctx) => {
     }) + ')';
 });
 
+router.get('/preview*', async (ctx) => {
+    let link = ctx.params[0];
+    let scope = ctx.scope || {};
+    console.log(link)
+    let source = await controller.previewContent(link);
+    let content = '404 Not Found';
+    if(source) {
+        content = marked(source);
+    }
+    let props = {
+        content
+    };
+    scope['title'] = 'Markdown Preview - 飞夕言';
+    ctx.type = 'text/html';
+    ctx.body = await render('page.resume', scope, props);
+});
+
 router.get('/resume*', async (ctx) => {
     let link = ctx.params[0];
     let scope = ctx.scope || {};
