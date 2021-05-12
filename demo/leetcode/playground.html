@@ -5,7 +5,6 @@
   <title>playground</title>
 </head>
 <body>
-
 <script src="struct.js"></script>
 <script>
 
@@ -29,13 +28,11 @@
   }();
 
   ~function () {
-
-    const result = Promise.resolve({a: 1})
-
-    result.then(data => console.log(data))
-
-    console.log(result);
-
+    let a = [1,2,3,4]
+    let b = a.splice(3)
+    a.unshift(b[0])
+    console.log(a)
+    console.log(b)
   }();
 
 </script>
